@@ -1,3 +1,26 @@
+<?php
+  include_once'connectdb.php';
+  session_start();
+  if(isset($_POST['btn_login'])){
+    $username = $_POST['txt_username'];
+    $password = $_POST['txt_password'];
+
+    //echo $username." - ".$password;
+    $select = $pdo->prepare("select * from tbl_user where 
+    username='$username' AND password='$password'");
+    $select->execute();
+    $row=$select->fetch(PDO::FETCH_ASSOC);//Obtnego los valores en esta row
+    //Validamos si los datos son correctos y mostramos los mensajes
+    if($row['username']==$username AND
+      $row['password']==$password){
+        echo $success='Login Successfull';
+        header('refresh:1;dashboard.php');//se redirigirá a dashboard.php después de 1 seg
+      }else{
+        echo 'login fail';
+    }
+  }
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,28 +53,29 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="../../index2.html"><b>Panamerican</b>Store</a>
+    <a href="index.php"><b>Panamerican</b>Store</a>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
     <p class="login-box-msg">Logueate para iniciar sesion</p>
 
-    <form action="../../index2.html" method="post">
+    <form action="" method="post">
       <div class="form-group has-feedback">
-        <input type="email" class="form-control" placeholder="Email">
-        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+        <input type="text" class="form-control" placeholder="Usuario" name="txt_username">
+        <span class="glyphicon glyphicon-user form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <input type="password" class="form-control" placeholder="Password">
+        <input type="password" class="form-control" placeholder="Contraseña" name="txt_password">
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
       <div class="row">
         <div class="col-xs-8">
+        <a href="#">Olvide mi contraseña</a><br>
          <!-- CODE checkbox DELETED -->
         </div>
         <!-- /.col -->
         <div class="col-xs-4">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+          <button type="submit" class="btn btn-primary btn-block btn-flat" name="btn_login">Login In</button>
         </div>
         <!-- /.col -->
       </div>
@@ -60,7 +84,7 @@
    <!-- CODE Log in with Social Network DELETED -->
     <!-- /.social-auth-links -->
 
-    <a href="#">Olvide mi contraseña</a><br>
+    
     <!-- CODE register a membership DELETED -->
 
   </div>

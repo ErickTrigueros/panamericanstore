@@ -1,12 +1,11 @@
 <?php
-  include_once'connectdb.php';//Incluimos conexion
-  session_start();//Iniciamos sesion para cargar todos las variables de sesion
+include_once'connectdb.php';//Incluimos conexion
+session_start();//Iniciamos sesion para cargar todos las variables de sesion
 
-  if($_SESSION['username']==""){//si la variable de sesion que contiene el usuario esta vacia.
-    header('location:index.php');//redirigir a index(Login), si tratamos de abrir dashboard.php(Admin) o user.php(USER), no dejara porque la variable de sesion username esta vacia
-  }
-
-  include_once'header.php';
+if($_SESSION['username']==""){//si la variable de sesion que contiene el usuario esta vacia.
+  header('location:index.php');//redirigir a index(Login), si tratamos de abrir dashboard.php(Admin) o user.php(USER), no dejara porque la variable de sesion username esta vacia
+}
+  include_once'headeruser.php';
 ?>
 
   <!-- Content Wrapper. Contains page content -->
@@ -14,7 +13,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Admin 
+        User dashboard 
         <small></small>
       </h1>
       <ol class="breadcrumb">

@@ -10,13 +10,28 @@
     username='$username' AND password='$password'");
     $select->execute();
     $row=$select->fetch(PDO::FETCH_ASSOC);//Obtnego los valores en esta row
-    //Validamos si los datos son correctos y mostramos los mensajes
+    //Validamos si los datos son correctos, y verificamos tipo de USER y mostramos los mensajes
     if($row['username']==$username AND
-      $row['password']==$password){
+      $row['password']==$password AND $row['role']=="Admin"){//Todos se debe cumplir si es Admin
+        //Guardamos todo en variables de sesion para poder usarlas porteriormente
+        $_SESSION['userid']=$row['userid'];
+        $_SESSION['username']=$row['username'];
+        $_SESSION['useremail']=$row['useremail'];
+        $_SESSION['role']=$row['role'];
         echo $success='Login Successfull';
         header('refresh:1;dashboard.php');//se redirigirá a dashboard.php después de 1 seg
-      }else{
-        echo 'login fail';
+      }else if($row['username']==$username AND
+      $row['password']==$password AND $row['role']=="User"){// si es User
+        //Guardamos todo en variables de sesion para poder usarlas porteriormente
+        $_SESSION['userid']=$row['userid'];
+        $_SESSION['username']=$row['username'];
+        $_SESSION['useremail']=$row['useremail'];
+        $_SESSION['role']=$row['role'];
+        echo $success='Login Successfull';
+        header('refresh:1;user.php');//se redirigirá a user.php después de 1 seg
+
+    }else{
+      echo 'login fail';
     }
   }
 ?>

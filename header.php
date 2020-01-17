@@ -85,7 +85,7 @@ desired effect
               <!-- The user image in the navbar-->
               <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs">Erick Trigueros</span>
+              <span class="hidden-xs">Hola <?php echo $_SESSION['username'];?></span><!--Muestra nombre de usuario-->
             </a>
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
@@ -93,7 +93,7 @@ desired effect
                 <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                 <p>
-                  Erick Trigueros - Web Developer
+                  <?php echo $_SESSION['name']." ".$_SESSION['surname'];?><!--Muestra nombre y apellidos de usuario-->
                   <small>Miembro desde Aug. 2019</small>
                 </p>
               </li>
@@ -110,7 +110,7 @@ desired effect
                   <a href="#" class="btn btn-default btn-flat">Cambiar Contraseña</a>
                 </div>
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Salir</a>
+                  <a href="logout.php" class="btn btn-default btn-flat">Salir</a>
                 </div>
               </li>
             </ul>
@@ -133,7 +133,7 @@ desired effect
           <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>Erick Trigueros</p>
+          <p><?php echo $_SESSION['name']." ".$_SESSION['surname'];?></p><!--muestra nombre y apellidos-->
           <!-- Status -->
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>

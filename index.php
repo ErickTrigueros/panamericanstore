@@ -1,3 +1,13 @@
+
+<!-- jQuery 3 -->
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- iCheck -->
+<script src="plugins/iCheck/icheck.min.js"></script>
+<!-- Sweetalert plugin -->
+<script src="bower_components/sweetalert/sweetalert.js"></script>
+
 <?php
   include_once'connectdb.php';
   session_start();
@@ -15,19 +25,43 @@
       $row['password']==$password AND $row['role']=="Admin"){//Todos se debe cumplir si es Admin
         //Guardamos todo en variables de sesion para poder usarlas porteriormente
         $_SESSION['userid']=$row['userid'];
+        $_SESSION['name']=$row['name'];
+        $_SESSION['surname']=$row['surname'];
         $_SESSION['username']=$row['username'];
         $_SESSION['useremail']=$row['useremail'];
         $_SESSION['role']=$row['role'];
-        echo $success='Login Successfull';
-        header('refresh:1;dashboard.php');//se redirigirá a dashboard.php después de 1 seg
+        //Mostrando sweetalert
+        echo '<script type="text/javascript">
+        jQuery(function validation(){
+          swal({
+            title: "Good job!'.$_SESSION['nombre'].'",
+            text: "Login Exitoso!",
+            icon: "success",
+            button: "Loading....",
+          });
+        });
+        </script>';
+        header('refresh:2;dashboard.php');//se redirigirá a dashboard.php después de 1 seg
       }else if($row['username']==$username AND
       $row['password']==$password AND $row['role']=="User"){// si es User
         //Guardamos todo en variables de sesion para poder usarlas porteriormente
         $_SESSION['userid']=$row['userid'];
+        $_SESSION['name']=$row['name'];
+        $_SESSION['surname']=$row['surname'];
         $_SESSION['username']=$row['username'];
         $_SESSION['useremail']=$row['useremail'];
         $_SESSION['role']=$row['role'];
-        echo $success='Login Successfull';
+        //Mostrando sweetalert
+        echo '<script type="text/javascript">
+        jQuery(function validation(){
+          swal({
+            title: "Good job!'.$_SESSION['nombre'].'",
+            text: "Login Exitoso!",
+            icon: "success",
+            button: "Loading....",
+          });
+        });
+        </script>';
         header('refresh:1;user.php');//se redirigirá a user.php después de 1 seg
 
     }else{
@@ -76,11 +110,11 @@
 
     <form action="" method="post">
       <div class="form-group has-feedback">
-        <input type="text" class="form-control" placeholder="Usuario" name="txt_username">
+        <input type="text" class="form-control" placeholder="Usuario" name="txt_username" required>
         <span class="glyphicon glyphicon-user form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <input type="password" class="form-control" placeholder="Contraseña" name="txt_password">
+        <input type="password" class="form-control" placeholder="Contraseña" name="txt_password" required>
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
       <div class="row">
@@ -107,12 +141,6 @@
 </div>
 <!-- /.login-box -->
 
-<!-- jQuery 3 -->
-<script src="bower_components/jquery/dist/jquery.min.js"></script>
-<!-- Bootstrap 3.3.7 -->
-<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<!-- iCheck -->
-<script src="plugins/iCheck/icheck.min.js"></script>
 <script>
   $(function () {
     $('input').iCheck({

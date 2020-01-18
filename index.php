@@ -34,10 +34,10 @@
         echo '<script type="text/javascript">
         jQuery(function validation(){
           swal({
-            title: "Good job!'.$_SESSION['nombre'].'",
+            title: "Bienvenido '.$_SESSION['name'].'",
             text: "Login Exitoso!",
             icon: "success",
-            button: "Loading....",
+            button: "Cargando....",
           });
         });
         </script>';
@@ -55,17 +55,26 @@
         echo '<script type="text/javascript">
         jQuery(function validation(){
           swal({
-            title: "Good job!'.$_SESSION['nombre'].'",
+            title: "Bienvenido '.$_SESSION['name'].'",
             text: "Login Exitoso!",
             icon: "success",
-            button: "Loading....",
+            button: "Cargando....",
           });
         });
         </script>';
         header('refresh:1;user.php');//se redirigirá a user.php después de 1 seg
 
     }else{
-      echo 'login fail';
+      echo '<script type="text/javascript">
+        jQuery(function validation(){
+          swal({
+            title: "Usuario y/o contraseña invalidos",
+            text: "Detalles no coinciden",
+            icon: "error",
+            button: "OK",
+          });
+        });
+        </script>';
     }
   }
 ?>
@@ -119,7 +128,7 @@
       </div>
       <div class="row">
         <div class="col-xs-8">
-        <a href="#">Olvide mi contraseña</a><br>
+        <a href="#" onclick="swal('Para recuperar contraseña','Por favor contacte al administrador','error');">Olvide mi contraseña</a><br>
          <!-- CODE checkbox DELETED -->
         </div>
         <!-- /.col -->

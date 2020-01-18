@@ -10,6 +10,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <title>User | PS</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+  <!-- jQuery 3 -->
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- iCheck -->
+<script src="plugins/iCheck/icheck.min.js"></script>
+<!-- Sweetalert plugin -->
+<script src="bower_components/sweetalert/sweetalert.js"></script>
+
+
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
@@ -85,7 +96,7 @@ desired effect
               <!-- The user image in the navbar-->
               <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs">Hola <?php echo $_SESSION['username'];?></span><!--Muestra nombre de usuario-->
+              <span class="hidden-xs"><?php echo $_SESSION['username'];?></span><!--Muestra nombre de usuario-->
             </a>
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
@@ -108,7 +119,7 @@ desired effect
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Cambiar Contraseña</a>
+                  <a href="changepassword.php" class="btn btn-default btn-flat">Cambiar Contraseña</a>
                 </div>
                 <div class="pull-right">
                   <a href="logout.php" class="btn btn-default btn-flat">Salir</a>

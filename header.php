@@ -10,6 +10,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <title>Panamerican Store | Admin</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  
+  <!-- jQuery 3 -->
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- iCheck -->
+<script src="plugins/iCheck/icheck.min.js"></script>
+<!-- Sweetalert plugin -->
+<script src="bower_components/sweetalert/sweetalert.js"></script>
+
+  
+  
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
@@ -85,7 +97,7 @@ desired effect
               <!-- The user image in the navbar-->
               <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs">Hola <?php echo $_SESSION['username'];?></span><!--Muestra nombre de usuario-->
+              <span class="hidden-xs"><?php echo $_SESSION['username'];?></span><!--Muestra nombre de usuario-->
             </a>
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
@@ -107,7 +119,7 @@ desired effect
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Cambiar Contraseña</a>
+                  <a href="changepassword.php" class="btn btn-default btn-flat">Cambiar Contraseña</a>
                 </div>
                 <div class="pull-right">
                   <a href="logout.php" class="btn btn-default btn-flat">Salir</a>
@@ -153,10 +165,13 @@ desired effect
 
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">HEADER</li>
-        <!-- Optionally, you can add icons to the links -->
-        <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>
-        <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
+        
+        <li><a href="dashboard.php"><i class="fa fa-dashboard"></i> <span>Inicio</span></a></li>
+
+        <li><a href="category.php"><i class="fa fa-list-alt"></i> <span>Categoria</span></a></li>
+
+        <li><a href="registration.php"><i class="fa fa-registered"></i> <span>Registrar</span></a></li>
+        <!--
         <li class="treeview">
           <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
             <span class="pull-right-container">
@@ -168,6 +183,7 @@ desired effect
             <li><a href="#">Link in level 2</a></li>
           </ul>
         </li>
+        -->
       </ul>
       <!-- /.sidebar-menu -->
     </section>

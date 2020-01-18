@@ -2,7 +2,7 @@
 include_once'connectdb.php';//Incluimos conexion
 session_start();//Iniciamos sesion para cargar todos las variables de sesion
 
-if($_SESSION['username']==""){//si la variable de sesion que contiene el usuario esta vacia.
+if($_SESSION['username']=="" OR $_SESSION['role']=="Admin"){//si la variable de sesion que contiene el usuario esta vacia o el rol es de Admin.
   header('location:index.php');//redirigir a index(Login), si tratamos de abrir dashboard.php(Admin) o user.php(USER), no dejara porque la variable de sesion username esta vacia
 }
   include_once'headeruser.php';

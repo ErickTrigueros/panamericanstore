@@ -19,6 +19,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="plugins/iCheck/icheck.min.js"></script>
 <!-- Sweetalert plugin -->
 <script src="bower_components/sweetalert/sweetalert.js"></script>
+<!-- DataTables -->
+<script src="bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 
   
   
@@ -44,6 +47,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Google Font -->
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+        <!-- Data Tables -->
+  <link rel="stylesheet" 
+        href="bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
 </head>
 <!--
 BODY TAG OPTIONS:
@@ -168,9 +175,9 @@ desired effect
         
         <li><a href="dashboard.php"><i class="fa fa-dashboard"></i> <span>Inicio</span></a></li>
 
-        <li><a href="category.php"><i class="fa fa-list-alt"></i> <span>Categoria</span></a></li>
+        <li><a href="category.php"><i class="fa fa-list-alt"></i> <span>Categoria de productos</span></a></li>
 
-        <li><a href="registration.php"><i class="fa fa-registered"></i> <span>Registrar</span></a></li>
+        <li><a href="registration.php"><i class="fa fa-registered"></i> <span>Registrar usuarios</span></a></li>
         <!--
         <li class="treeview">
           <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>

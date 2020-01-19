@@ -1,6 +1,11 @@
 <?php
     include_once'connectdb.php';
     session_start();
+    if($_SESSION['username']=="" OR $_SESSION['role']=="User"){//si la variable de sesion que contiene el usuario esta vacia o es un rol de usuario mandarlo al index.
+        header('location:index.php');//redirigir a index(Login), si tratamos de abrir registration.php, no dejara porque la variable de sesion username esta vacia o la variable de sesion esta con usuario
+      }
+
+
   include_once'header.php';
 
     error_reporting(0);//elimino los errores que me muestra php
@@ -95,7 +100,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Registro de usuarios
+        Usuarios
         <small></small>
       </h1>
       <ol class="breadcrumb">
@@ -113,7 +118,7 @@
         <!-- general form elements -->
         <div class="box box-info">
             <div class="box-header with-border">
-              <h3 class="box-title">Registrar</h3>
+              <h3 class="box-title">Agregar usuarios</h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->
@@ -150,7 +155,7 @@
                     </select>
                     </div>
 
-                    <button type="submit" class="btn btn-info" name="btnsave">Registrar</button>
+                    <button type="submit" class="btn btn-info" name="btnsave">Guardar</button>
 
                 </div>
                 <div class="col-md-8"><!--Columnas divididas en 8-->
@@ -182,7 +187,7 @@
                                 <td>'.$row->role.'</td>
                                 <td>
                                 <a href="registration.php?id='.$row->userid.'" class="btn btn-danger" role="button">
-                                <span class="glyphicon glyphicon-trash" title="delete" </span></a>
+                                <span class="glyphicon glyphicon-trash" title="delete"></span></a>
                                 </td>
                                 
                             </tr>';

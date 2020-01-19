@@ -3,6 +3,116 @@ include_once'connectdb.php';
 session_start();
 
   include_once'header.php';
+
+  //Inicio codigo para agregar productos
+  if(isset($_POST['btnaddproduct'])){
+    //Guardamos en variables para los campos del producto
+    $pcode=$_POST['txtpcode'];
+    $productname=$_POST['txtpname'];
+    $category=$_POST['txtselectcat_option'];
+    $style=$_POST['txtselectstyle_option'];
+    $material=$_POST['txtselectmat_option'];
+    $color=$_POST['txtselectcolor_option'];
+    $purchaseprice=$_POST['txtpprice'];
+    $saleprice=$_POST['txtsaleprice'];
+    $observation=$_POST['txtobservation'];
+    $stock=$_POST['txtstock'];
+    $description=$_POST['txtdescription'];
+      //Inicio codigo para agregar archivos
+      $f_name= $_FILES['myfile']['name'];
+      $f_tmp= $_FILES['myfile']['tmp_name'];
+      $f_size= $_FILES['myfile']['size'];
+      $f_extension= explode('.',$f_name);
+      $f_extension= strtolower(end($f_extension));
+      $f_newfile= uniqid().'.'.$f_extension;
+      $store= "productimages/". $f_newfile;//necesitamos crear una carpeta llamada upload
+
+      if($f_extension=='jpg' || $f_extension=='jpeg' || $f_extension=='png' || $f_extension=='gif'){
+        if ($f_size>=1000000) {
+         // echo "Archivo debe ser mayor a 1MB"
+         $error='
+         <script type="text/javascript">
+             jQuery(function validation(){
+               swal({
+                 title: "Error!",
+                 text: "Archivo debe ser mayor a 1KB!",
+                 icon: "warning",
+                 button: "OK",
+               });
+             });
+             </script>';
+             echo $error;
+        } else {
+          if(move_uploaded_file($f_tmp, $store)){
+            $productimage=$f_newfile;
+        
+          }
+        }
+        
+      }else {
+        //echo "Solo puede cargar imagenes jpg, png y gif"
+        $error='
+         <script type="text/javascript">
+             jQuery(function validation(){
+               swal({
+                 title: "Warning!",
+                 text: "Solo puede cargar imagenes jpg, jpeg, png y gif!",
+                 icon: "error",
+                 button: "OK",
+               });
+             });
+             </script>';
+             echo $error;      
+      }
+      //Fin codigo para agregar archivos
+
+      if(!isset($error)){
+        $insert=$pdo->prepare("insert into tbl_product(pcode,pname,pcategory,pstyle,pmaterial,pcolor,purchaseprice,saleprice,pobservation,pstock,pdescription,pimage)
+         values (:pcode,:pname,:pcategory,:pstyle,:pmaterial,:pcolor,:purchaseprice,:saleprice,:pobservation,:pstock,:pdescription,:pimage)");
+        $insert->bindParam(':pcode',$pcode);
+        $insert->bindParam(':pname',$productname);
+        $insert->bindParam('pcategory',$category);
+        $insert->bindParam(':pstyle',$style);
+        $insert->bindParam(':pmaterial',$material);
+        $insert->bindParam(':pcolor',$color);
+        $insert->bindParam(':purchaseprice',$purchaseprice);
+        $insert->bindParam(':saleprice',$saleprice);
+        $insert->bindParam(':pobservation',$observation);
+        $insert->bindParam(':pstock',$stock);
+        $insert->bindParam(':pdescription',$description);
+        $insert->bindParam(':pimage',$productimage);
+        if($insert->execute()){
+            //echo 'Registro exitoso';
+            echo '<script type="text/javascript">
+            jQuery(function validation(){
+              swal({
+                title: "Agregado!",
+                text: "Producto agregado con exito!",
+                icon: "success",
+                button: "OK",
+              });
+            });
+            </script>';
+        }else {
+          echo'
+         <script type="text/javascript">
+             jQuery(function validation(){
+               swal({
+                 title: "Error!",
+                 text: "No se pudo agregar producto!",
+                 icon: "error",
+                 button: "OK",
+               });
+             });
+             </script>';
+        }
+      }
+
+    }
+    //Fin codigo para agregar productos
+      
+
+
 ?>
 
   <!-- Content Wrapper. Contains page content -->
@@ -32,14 +142,14 @@ session_start();
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            
-              <div class="box-body">
-              <form role="form" action="" method="post" name="formproduct"><!--Formulario para agregar productos-->
+            <form role="form" action="" method="post" name="formproduct" enctype="multipart/form-data"><!--Formulario para agregar productos-->
 
+              <div class="box-body">
+              
               <div class="col-md-6"><!--Columnas divididas en 6 para agregar productos-->
               <div class="form-group">
                     <label>Codigo</label>
-                    <input type="text" class="form-control" name="txtcode" placeholder="Ingresar codigo" required>
+                    <input type="text" class="form-control" name="txtpcode" placeholder="Ingresar codigo" required>
                     </div>
 
                     <div class="form-group">
@@ -72,7 +182,7 @@ session_start();
                      <div class="form-group">
                     <label>Estilo</label>
                     <select class="form-control" name="txtselectstyle_option">
-                        <option value="" disabled selected>Seleccionar categoria</option>
+                        <option value="" disabled selected>Seleccionar estilo</option>
                        <!-- codigo para cargar estilos -->
                        <?php
                             $select=$pdo->prepare("select * from tbl_style order by idstyle asc");//Obtengo los datos
@@ -141,7 +251,7 @@ session_start();
                     </div>  
                     <div class="form-group">
                     <label>Observaciones</label>
-                    <textarea class="form-control" name="txtdescription" placeholder="Ingresar..." rows="4"></textarea>
+                    <textarea class="form-control" name="txtobservation" placeholder="Ingresar..." rows="4"></textarea>
                     </div>   
                     
                  
@@ -160,18 +270,19 @@ session_start();
                     </div>
                     <div class="form-group">
                     <label>Imagen de producto</label>
-                    <input type="file" class="input-group" name="productimage" required>
+                    <input type="file" class="input-group" name="myfile" required>
                     <p>Subir imagen</p>
                     </div>
               
 
               </div>
-            </form>
+          
               </div><!-- end box body-->
               <div class="box-footer">
                 
                 <button type="submit" class="btn btn-info" name="btnaddproduct">Guardar producto</button>
               </div>
+              </form>
         </div>
 
 

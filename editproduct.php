@@ -1,120 +1,26 @@
 <?php
 include_once'connectdb.php';
 session_start();
-
   include_once'header.php';
-
-  //Inicio codigo para agregar productos
-  if(isset($_POST['btnaddproduct'])){
-    //Guardamos en variables para los campos del producto
-    $pcode=$_POST['txtpcode'];
-    $productname=$_POST['txtpname'];
-    $category=$_POST['txtselectcat_option'];
-    $style=$_POST['txtselectstyle_option'];
-    $material=$_POST['txtselectmat_option'];
-    $color=$_POST['txtselectcolor_option'];
-    $purchaseprice=$_POST['txtpprice'];
-    $saleprice=$_POST['txtsaleprice'];
-    $observation=$_POST['txtobservation'];
-    $stock=$_POST['txtstock'];
-    $description=$_POST['txtdescription'];
-      //Inicio codigo para agregar archivos
-      $f_name= $_FILES['myfile']['name'];
-      $f_tmp= $_FILES['myfile']['tmp_name'];
-      $f_size= $_FILES['myfile']['size'];
-      $f_extension= explode('.',$f_name);
-      $f_extension= strtolower(end($f_extension));
-      $f_newfile= uniqid().'.'.$f_extension;
-      $store= "productimages/". $f_newfile;//necesitamos crear una carpeta llamada upload
-
-      if($f_extension=='jpg' || $f_extension=='jpeg' || $f_extension=='png' || $f_extension=='gif'){
-        if ($f_size>=1000000) {
-         // echo "Archivo debe ser mayor a 1MB"
-         $error='
-         <script type="text/javascript">
-             jQuery(function validation(){
-               swal({
-                 title: "Error!",
-                 text: "Archivo debe ser menor a 1MB!",
-                 icon: "warning",
-                 button: "OK",
-               });
-             });
-             </script>';
-             echo $error;
-        } else {
-          if(move_uploaded_file($f_tmp, $store)){
-            $productimage=$f_newfile;
-     
-      //Codigo para insertar en db
-
-      if(!isset($error)){
-        $insert=$pdo->prepare("insert into tbl_product(pcode,pname,pcategory,pstyle,pmaterial,pcolor,purchaseprice,saleprice,pobservation,pstock,pdescription,pimage)
-         values (:pcode,:pname,:pcategory,:pstyle,:pmaterial,:pcolor,:purchaseprice,:saleprice,:pobservation,:pstock,:pdescription,:pimage)");
-        $insert->bindParam(':pcode',$pcode);
-        $insert->bindParam(':pname',$productname);
-        $insert->bindParam('pcategory',$category);
-        $insert->bindParam(':pstyle',$style);
-        $insert->bindParam(':pmaterial',$material);
-        $insert->bindParam(':pcolor',$color);
-        $insert->bindParam(':purchaseprice',$purchaseprice);
-        $insert->bindParam(':saleprice',$saleprice);
-        $insert->bindParam(':pobservation',$observation);
-        $insert->bindParam(':pstock',$stock);
-        $insert->bindParam(':pdescription',$description);
-        $insert->bindParam(':pimage',$productimage);
-        if($insert->execute()){
-            //echo 'Registro exitoso';
-            echo '<script type="text/javascript">
-            jQuery(function validation(){
-              swal({
-                title: "Agregado!",
-                text: "Producto agregado con exito!",
-                icon: "success",
-                button: "OK",
-              });
-            });
-            </script>';
-        }else {
-          echo'
-         <script type="text/javascript">
-             jQuery(function validation(){
-               swal({
-                 title: "Error!",
-                 text: "No se pudo agregar producto!",
-                 icon: "error",
-                 button: "OK",
-               });
-             });
-             </script>';
-        }
-      }//FIn codigo inertar en DB
-        
-          }
-        }
-        
-      }else {
-        //echo "Solo puede cargar imagenes jpg, png y gif"
-        $error='
-         <script type="text/javascript">
-             jQuery(function validation(){
-               swal({
-                 title: "Warning!",
-                 text: "Solo puede cargar imagenes jpg, jpeg, png y gif!",
-                 icon: "error",
-                 button: "OK",
-               });
-             });
-             </script>';
-             echo $error;      
-      }
-      //Fin codigo para agregar archivos
-
-
-
-    }
-    //Fin codigo para agregar productos
-      
+//Inicio editar producto
+$id = $_GET['id'];
+$select=$pdo->prepare("select * from tbl_product where idp =$id");//Obtengo los datos
+$select->execute();//ejecuto la query
+$row=$select->fetch(PDO::FETCH_ASSOC);//Recorro los registros los valores
+    $code_db=$row['pcode'];
+    $productname_db=$row['pname'];
+    $category_db = $row['pcategory'];
+    $style_db = $row['pstyle'];
+    $material_db = $row['pmaterial'];
+    $color_db = $row['pcolor'];
+    $purchaseprice_db = $row['purchaseprice'];
+    $saleprice_db = $row['saleprice'];
+    $observation_db = $row['pobservation'];
+    $stock_db = $row['pstock'];
+    $description_db = $row['pdescription'];
+    $image_db = $row['pimage'];
+    print_r($row);
+//fin editar producto
 
 
 ?>
@@ -124,7 +30,7 @@ session_start();
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Agregar Productos 
+        Editar producto 
         <small></small>
       </h1>
       <ol class="breadcrumb">
@@ -139,26 +45,26 @@ session_start();
       <!--------------------------
         | Your Page Content Here |
         -------------------------->
-         <!-- general form elements -->
-         <div class="box box-info">
+        <!-- general form elements -->
+        <div class="box box-warning">
             <div class="box-header with-border">
-              <h3 class="box-title"><a href="productlist.php" class="btn btn-primary" role="button">Regresar a lista de productos</a></h3>
+              <h3 class="box-title">Editar Producto</h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->
             <form role="form" action="" method="post" name="formproduct" enctype="multipart/form-data"><!--Formulario para agregar productos-->
-
-              <div class="box-body">
+            
+            <div class="box-body">
               
               <div class="col-md-6"><!--Columnas divididas en 6 para agregar productos-->
               <div class="form-group">
                     <label>Codigo</label>
-                    <input type="text" class="form-control" name="txtpcode" placeholder="Ingresar codigo" required>
+                    <input type="text" class="form-control" name="txtpcode" value="<?php echo $code_db;?>" placeholder="Ingresar codigo" required>
                     </div>
 
                     <div class="form-group">
                     <label >Nombre</label>
-                    <input type="text" class="form-control" name="txtpname" placeholder="Ingresar nombre" required>
+                    <input type="text" class="form-control" name="txtpname" value="<?php echo $productname_db;?>" placeholder="Ingresar nombre" required>
                     </div>
                     <!-- seleccionar categoria -->
                     <div class="form-group">
@@ -170,10 +76,14 @@ session_start();
                             $select=$pdo->prepare("select * from tbl_category order by idcat asc");//Obtengo los datos
                             $select->execute();//ejecuto la query
                             while($row=$select->fetch(PDO::FETCH_ASSOC)){//Recorro los registros los valores
-                            extract($row);
-                            ?>
-                            <option><?php echo $row['category'];?></option>
-                           ?>
+                                extract($row);
+                                ?>
+                                
+                                <option <?php if($row['category']==$category_db) {?>
+                                selected = "selected"
+                                <?php } ?> >
+
+                                <?php echo $row['category'];?></option>
                             <?php
                             }
                             ?>
@@ -194,8 +104,11 @@ session_start();
                             while($row=$select->fetch(PDO::FETCH_ASSOC)){//Recorro los registros los valores
                             extract($row);
                             ?>
-                            <option><?php echo $row['style'];?></option>
-                           ?>
+                            <option <?php if($row['style']==$style_db) {?>
+                                selected = "selected"
+                                <?php } ?> >
+
+                                <?php echo $row['style'];?></option>
                             <?php
                             }
                             ?>
@@ -215,8 +128,11 @@ session_start();
                             while($row=$select->fetch(PDO::FETCH_ASSOC)){//Recorro los registros los valores
                             extract($row);
                             ?>
-                            <option><?php echo $row['material'];?></option>
-                           ?>
+                            <option <?php if($row['material']==$material_db) {?>
+                                selected = "selected"
+                                <?php } ?> >
+
+                                <?php echo $row['material'];?></option>
                             <?php
                             }
                             ?>
@@ -236,8 +152,11 @@ session_start();
                             while($row=$select->fetch(PDO::FETCH_ASSOC)){//Recorro los registros los valores
                             extract($row);
                             ?>
-                            <option><?php echo $row['color'];?></option>
-                           ?>
+                            <option <?php if($row['color']==$color_db) {?>
+                                selected = "selected"
+                                <?php } ?> >
+
+                                <?php echo $row['color'];?></option>
                             <?php
                             }
                             ?>
@@ -247,15 +166,15 @@ session_start();
                     <!-- Fin seleccionar Color -->
                     <div class="form-group">
                     <label >Precio compra</label>
-                    <input type="number" min="1" step="1" class="form-control" name="txtpprice" placeholder="Ingresar precio compra" required><!-- minimo de cantidad y step, es el incremento, 1 a 1 -->
+                    <input type="number" min="1" step="1" class="form-control" name="txtpprice" value="<?php echo $purchaseprice_db;?>" placeholder="Ingresar precio compra" required><!-- minimo de cantidad y step, es el incremento, 1 a 1 -->
                     </div>
                     <div class="form-group">
                     <label>Precio venta</label>
-                    <input type="number" min="1" step="1" class="form-control" name="txtsaleprice" placeholder="Ingresar precio de venta" required><!-- minimo de cantidad y step, es el incremento, 1 a 1 -->
+                    <input type="number" min="1" step="1" class="form-control" name="txtsaleprice" value="<?php echo $saleprice_db;?>" placeholder="Ingresar precio de venta" required><!-- minimo de cantidad y step, es el incremento, 1 a 1 -->
                     </div>  
                     <div class="form-group">
                     <label>Observaciones</label>
-                    <textarea class="form-control" name="txtobservation" placeholder="Ingresar..." rows="4"></textarea>
+                    <textarea class="form-control" name="txtobservation" placeholder="Ingresar..." rows="4"><?php echo $observation_db;?></textarea>
                     </div>   
      
               </div>
@@ -264,14 +183,17 @@ session_start();
               <div class="col-md-6"><!--Columnas divididas en 6-->
                     <div class="form-group">
                     <label>Existencias</label>
-                    <input type="number" min="1" step="1" class="form-control" name="txtstock" placeholder="Ingresar..." required>
+                    <input type="number" min="1" step="1" class="form-control" name="txtstock" value="<?php echo $stock_db;?>" placeholder="Ingresar..." required>
                     </div>
                     <div class="form-group">
                     <label>Descripcion</label>
-                    <textarea class="form-control" name="txtdescription" placeholder="Ingresar..." rows="4"></textarea>
+                    <textarea class="form-control" name="txtdescription" placeholder="Ingresar..." rows="4"><?php echo $description_db;?></textarea>
                     </div>
                     <div class="form-group">
                     <label>Imagen de producto</label>
+
+                    <img src="productimages/<?php echo $image_db; ?>'.$row->pimage.'" class="img-rounded" width="40px" height="40px"/>
+
                     <input type="file" class="input-group" name="myfile" required>
                     <p>Subir imagen</p>
                     </div>
@@ -279,14 +201,13 @@ session_start();
 
               </div>
           
-              </div><!-- end box body-->
-              <div class="box-footer">
+            </div>
+            <div class="box-footer">
                 
-                <button type="submit" class="btn btn-info" name="btnaddproduct">Guardar producto</button>
+                <button type="submit" class="btn btn-warning" name="btnupdateproduct">Actualizar producto</button>
               </div>
-              </form>
+            </form>
         </div>
-
 
     </section>
     <!-- /.content -->

@@ -42,14 +42,14 @@ session_start();
                                 <th>Codigo</th>
                                 <th>Nombre</th>
                                 <th>Categoria</th>
-                                <th>Estilo</th>
+                                
                                 <th>Material</th>
                                 <th>Color</th>
                                 <th>Precio compra</th>
                                 <th>Precio venta</th>
-                                <th>Observaciones</th>
+                                
                                 <th>Existencias</th>
-                                <th>Descripcion</th>
+                                
                                 <th>Imagen</th>
                                 <th>Ver</th>
                                 <th>Editar</th>
@@ -66,14 +66,14 @@ session_start();
                                 <td>'.$row->pcode.'</td>
                                 <td>'.$row->pname.'</td>
                                 <td>'.$row->pcategory.'</td>
-                                <td>'.$row->pstyle.'</td>
+                                
                                 <td>'.$row->pmaterial.'</td>
                                 <td>'.$row->pcolor.'</td>
                                 <td>'.$row->purchaseprice.'</td>
                                 <td>'.$row->saleprice.'</td>
-                                <td>'.$row->pobservation.'</td>
+                                
                                 <td>'.$row->pstock.'</td>
-                                <td>'.$row->pdescription.'</td>
+                                
                                 <td><img src="productimages/'.$row->pimage.'" class="img-rounded" width="40px" height="40px"/></td>
                                 <td>
                                 <a href="viewproduct.php?id='.$row->idp.'" class="btn btn-success" role="button">

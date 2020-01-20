@@ -177,6 +177,10 @@ desired effect
 
         <li><a href="category.php"><i class="fa fa-list-alt"></i> <span>Categoria de productos</span></a></li>
 
+        <li><a href="addproduct.php"><i class="fa fa-product-hunt"></i> <span>Agregar productos</span></a></li>
+
+        <li><a href="productlist.php"><i class="fa fa-th-list"></i> <span>Lista de productos</span></a></li>
+
         <li><a href="registration.php"><i class="fa fa-registered"></i> <span>Registrar usuarios</span></a></li>
         <!--
         <li class="treeview">

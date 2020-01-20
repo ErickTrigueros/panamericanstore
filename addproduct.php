@@ -45,26 +45,9 @@ session_start();
         } else {
           if(move_uploaded_file($f_tmp, $store)){
             $productimage=$f_newfile;
-        
-          }
-        }
-        
-      }else {
-        //echo "Solo puede cargar imagenes jpg, png y gif"
-        $error='
-         <script type="text/javascript">
-             jQuery(function validation(){
-               swal({
-                 title: "Warning!",
-                 text: "Solo puede cargar imagenes jpg, jpeg, png y gif!",
-                 icon: "error",
-                 button: "OK",
-               });
-             });
-             </script>';
-             echo $error;      
-      }
-      //Fin codigo para agregar archivos
+
+            
+      //Codigo para insertar en db
 
       if(!isset($error)){
         $insert=$pdo->prepare("insert into tbl_product(pcode,pname,pcategory,pstyle,pmaterial,pcolor,purchaseprice,saleprice,pobservation,pstock,pdescription,pimage)
@@ -106,7 +89,29 @@ session_start();
              });
              </script>';
         }
+      }//FIn codigo inertar en DB
+        
+          }
+        }
+        
+      }else {
+        //echo "Solo puede cargar imagenes jpg, png y gif"
+        $error='
+         <script type="text/javascript">
+             jQuery(function validation(){
+               swal({
+                 title: "Warning!",
+                 text: "Solo puede cargar imagenes jpg, jpeg, png y gif!",
+                 icon: "error",
+                 button: "OK",
+               });
+             });
+             </script>';
+             echo $error;      
       }
+      //Fin codigo para agregar archivos
+
+
 
     }
     //Fin codigo para agregar productos

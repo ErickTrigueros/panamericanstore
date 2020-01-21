@@ -1,6 +1,11 @@
 <?php
 include_once'connectdb.php';
 session_start();
+
+if($_SESSION['username']=="" OR $_SESSION['role']=="User"){//si la variable de sesion que contiene el usuario esta vacia o es un rol de usuario mandarlo al index.
+  header('location:index.php');//redirigir a index(Login), si tratamos de abrir registration.php, no dejara porque la variable de sesion username esta vacia o la variable de sesion esta con usuario
+}
+
   include_once'header.php';
 ?>
 
@@ -84,8 +89,7 @@ session_start();
                                 <span class="glyphicon glyphicon-edit" style="color:#ffffff" data-toggle="tooltip" title="Editar Producto"></span></a>
                                 </td>
                                 <td>
-                                <a href="deleteproduct.php?id='.$row->idp.'" class="btn btn-danger" role="button">
-                                <span class="glyphicon glyphicon-trash" style="color:#ffffff" data-toggle="tooltip" title="Delete Product"></span></a>
+                                <button id='.$row->idp.' class="btn btn-danger btndelete" ><span class="glyphicon glyphicon-trash" style="color:#ffffff" data-toggle="tooltip"  title="Eliminar Producto"></span></button>
                                 </td>
                                 
                             </tr>';
@@ -115,6 +119,45 @@ session_start();
         $('[data-togle="tooltip"]').tooltip();
     } );
   </script>
+
+  <!-- Start Script para eliminar producto-->
+        <script>
+          $(document).ready(function() {
+          $('.btndelete').click(function() {
+                  var tdh = $(this);
+                  var id = $(this).attr("id");
+                  swal({
+        title: "¿Eliminar producto?",
+        text: "Una vez eliminado, no podras recuperarlo!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((willDelete) => {
+        if (willDelete) {
+            
+            $.ajax({
+                                  url: 'productdelete.php',
+                                  type: 'post',
+                                  data: {
+                                  pidd: id
+                                  },
+                                  success: function(data) {
+                                  tdh.parents('tr').hide();
+                                  }
+                              });
+          swal("Producto eliminado!", {
+            icon: "success",
+          });
+        } else {
+          swal("Producto no eliminado!");
+        }
+      });
+              });
+          });   
+      </script>
+<!-- End Script para eliminar producto-->
+
 <?php
   include_once'footer.php';
 ?>

@@ -1,6 +1,11 @@
 <?php
 include_once'connectdb.php';
 session_start();
+
+if($_SESSION['username']=="" OR $_SESSION['role']=="User"){//si la variable de sesion que contiene el usuario esta vacia o es un rol de usuario mandarlo al index.
+    header('location:index.php');//redirigir a index(Login), si tratamos de abrir registration.php, no dejara porque la variable de sesion username esta vacia o la variable de sesion esta con usuario
+  }
+
   include_once'header.php';
 //Inicio editar producto
 $id = $_GET['id'];
@@ -146,7 +151,7 @@ $row=$select->fetch(PDO::FETCH_ASSOC);//Recorro los registros los valores
         $update->bindParam(':pobservation',$observation);
         $update->bindParam(':pstock',$stock);
         $update->bindParam(':pdescription',$description);
-        $update->bindParam(':pimage',$productimage);
+        $update->bindParam(':pimage',$image_db);
         if($update->execute()){
           //echo 'Registro exitoso';
           $error= '<script type="text/javascript">

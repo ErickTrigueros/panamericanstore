@@ -19,10 +19,182 @@ $row=$select->fetch(PDO::FETCH_ASSOC);//Recorro los registros los valores
     $stock_db = $row['pstock'];
     $description_db = $row['pdescription'];
     $image_db = $row['pimage'];
-    print_r($row);
+    //print_r($row); //Linea para imprimir el producto.
 //fin editar producto
 
+//inicio codigo de boton actualizar producto
+  //Inicio codigo para agregar productos
+  if(isset($_POST['btnupdateproduct'])){
+    //Guardamos en variables para los campos del producto
+    $pcode=$_POST['txtpcode'];
+    $productname=$_POST['txtpname'];
+    $category=$_POST['txtselectcat_option'];
+    $style=$_POST['txtselectstyle_option'];
+    $material=$_POST['txtselectmat_option'];
+    $color=$_POST['txtselectcolor_option'];
+    $purchaseprice=$_POST['txtpprice'];
+    $saleprice=$_POST['txtsaleprice'];
+    $observation=$_POST['txtobservation'];
+    $stock=$_POST['txtstock'];
+    $description=$_POST['txtdescription'];
+      //Inicio codigo para agregar archivos
+      $f_name= $_FILES['myfile']['name'];
+      //inicio update img+++++++++++++++++++++++++++
+      if(!empty($f_name)){
+        $f_tmp= $_FILES['myfile']['tmp_name'];
+        $f_size= $_FILES['myfile']['size'];
+        $f_extension= explode('.',$f_name);
+        $f_extension= strtolower(end($f_extension));
+        $f_newfile= uniqid().'.'.$f_extension;
+        $store= "productimages/". $f_newfile;//necesitamos crear una carpeta llamada upload
+  
+        if($f_extension=='jpg' || $f_extension=='jpeg' || $f_extension=='png' || $f_extension=='gif'){
+          if ($f_size>=1000000) {
+           // echo "Archivo debe ser mayor a 1MB"
+           $error='
+           <script type="text/javascript">
+               jQuery(function validation(){
+                 swal({
+                   title: "Error!",
+                   text: "Archivo debe ser menor a 1MB!",
+                   icon: "warning",
+                   button: "OK",
+                 });
+               });
+               </script>';
+               echo $error;
+          } else {
+            if(move_uploaded_file($f_tmp, $store)){
+              $f_newfile;
+       
+        //Codigo para insertar en db
+  
+        if(!isset($error)){
+          $update=$pdo->prepare("update tbl_product set pcode=:pcode, pname=:pname, pcategory=:pcategory, pstyle=:pstyle, pmaterial=:pmaterial,
+          pcolor=:pcolor, purchaseprice=:purchaseprice, saleprice=:saleprice, pobservation=:pobservation, pstock=:pstock, pdescription=:pdescription,
+          pimage=:pimage where idp =$id ");
+          $update->bindParam(':pcode',$pcode);
+          $update->bindParam(':pname',$productname);
+          $update->bindParam('pcategory',$category);
+          $update->bindParam(':pstyle',$style);
+          $update->bindParam(':pmaterial',$material);
+          $update->bindParam(':pcolor',$color);
+          $update->bindParam(':purchaseprice',$purchaseprice);
+          $update->bindParam(':saleprice',$saleprice);
+          $update->bindParam(':pobservation',$observation);
+          $update->bindParam(':pstock',$stock);
+          $update->bindParam(':pdescription',$description);
+          $update->bindParam(':pimage',$f_newfile);
+          if($update->execute()){
+              //echo 'Registro exitoso';
+              echo '<script type="text/javascript">
+              jQuery(function validation(){
+                swal({
+                  title: "Producto actualizado con exito!",
+                  text: "Actualizado!",
+                  icon: "success",
+                  button: "OK",
+                });
+              });
+              </script>';
+          }else {
+            echo'
+           <script type="text/javascript">
+               jQuery(function validation(){
+                 swal({
+                   title: "No se pudo actualizar producto!",
+                   text: "Error!",
+                   icon: "error",
+                   button: "OK",
+                 });
+               });
+               </script>';
+          }
+        }//FIn codigo inertar en DB
+          
+            }
+          }
+          
+        }else {
+          //echo "Solo puede cargar imagenes jpg, png y gif"
+          $error='
+           <script type="text/javascript">
+               jQuery(function validation(){
+                 swal({
+                   title: "Warning!",
+                   text: "Solo puede cargar imagenes jpg, jpeg, png y gif!",
+                   icon: "error",
+                   button: "OK",
+                 });
+               });
+               </script>';
+               echo $error;      
+        }
+        //Fin codigo para actualizar img+++++++++
+      }else {
+        $update=$pdo->prepare("update tbl_product set pcode=:pcode, pname=:pname, pcategory=:pcategory, pstyle=:pstyle, pmaterial=:pmaterial,
+        pcolor=:pcolor, purchaseprice=:purchaseprice, saleprice=:saleprice, pobservation=:pobservation, pstock=:pstock, pdescription=:pdescription,
+        pimage=:pimage where idp =$id ");
+        $update->bindParam(':pcode',$pcode);
+        $update->bindParam(':pname',$productname);
+        $update->bindParam('pcategory',$category);
+        $update->bindParam(':pstyle',$style);
+        $update->bindParam(':pmaterial',$material);
+        $update->bindParam(':pcolor',$color);
+        $update->bindParam(':purchaseprice',$purchaseprice);
+        $update->bindParam(':saleprice',$saleprice);
+        $update->bindParam(':pobservation',$observation);
+        $update->bindParam(':pstock',$stock);
+        $update->bindParam(':pdescription',$description);
+        $update->bindParam(':pimage',$productimage);
+        if($update->execute()){
+          //echo 'Registro exitoso';
+          $error= '<script type="text/javascript">
+          jQuery(function validation(){
+            swal({
+              title: "Producto actualizado con exito!",
+              text: "Actualizado!",
+              icon: "success",
+              button: "OK",
+            });
+          });
+          </script>';
+          echo $error;
+      }else {
+        $error='
+       <script type="text/javascript">
+           jQuery(function validation(){
+             swal({
+               title: "No se pudo actualizar producto!",
+               text: "Error!",
+               icon: "error",
+               button: "OK",
+             });
+           });
+           </script>';
+           echo $error;
+      }
+    }//FIn codigo actualizar en DB
 
+      }
+
+      //inicio codigo para poner las nuevas variables actualizadas en el formulario 
+      $select=$pdo->prepare("select * from tbl_product where idp =$id");//Obtengo los datos
+$select->execute();//ejecuto la query
+$row=$select->fetch(PDO::FETCH_ASSOC);//Recorro los registros los valores
+    $code_db=$row['pcode'];
+    $productname_db=$row['pname'];
+    $category_db = $row['pcategory'];
+    $style_db = $row['pstyle'];
+    $material_db = $row['pmaterial'];
+    $color_db = $row['pcolor'];
+    $purchaseprice_db = $row['purchaseprice'];
+    $saleprice_db = $row['saleprice'];
+    $observation_db = $row['pobservation'];
+    $stock_db = $row['pstock'];
+    $description_db = $row['pdescription'];
+    $image_db = $row['pimage'];
+  //Fincodigo para poner las nuevas variables actualizadas en el formulario
 ?>
 
   <!-- Content Wrapper. Contains page content -->
@@ -48,7 +220,7 @@ $row=$select->fetch(PDO::FETCH_ASSOC);//Recorro los registros los valores
         <!-- general form elements -->
         <div class="box box-warning">
             <div class="box-header with-border">
-              <h3 class="box-title">Editar Producto</h3>
+            <h3 class="box-title"><a href="productlist.php" class="btn btn-primary" role="button">Regresar a lista de productos</a></h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->
@@ -192,9 +364,9 @@ $row=$select->fetch(PDO::FETCH_ASSOC);//Recorro los registros los valores
                     <div class="form-group">
                     <label>Imagen de producto</label>
 
-                    <img src="productimages/<?php echo $image_db; ?>'.$row->pimage.'" class="img-rounded" width="40px" height="40px"/>
+                    <img src="productimages/<?php echo $image_db; ?>" class="img-responsive" width="50px" height="50px"/>
 
-                    <input type="file" class="input-group" name="myfile" required>
+                    <input type="file" class="input-group" name="myfile">
                     <p>Subir imagen</p>
                     </div>
               

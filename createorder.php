@@ -73,7 +73,7 @@ function fill_product($pdo){
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" class="form-control pull-right" id="datepicker">
+                                <input type="text" class="form-control pull-right" id="datepicker" name="orderdate" value="<?php echo date("Y-m-d");?>"  data-date-format="yyyy-mm-dd">
                             </div>
                             <!-- /.input group -->
                     </div>
@@ -111,26 +111,26 @@ function fill_product($pdo){
                                 <div class="input-group-addon">
                                     <i class="fa fa-usd"></i>
                                 </div>
-                                <input type="text" class="form-control" name="txtsubtotal" id="txtsubtotal" required >
+                                <input type="text" class="form-control" name="txtsubtotal" id="txtsubtotal" required readonly>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Impuesto (5%)</label>
+                        <label>Impuesto (0%)</label>
                         <div class="input-group">
                                 <div class="input-group-addon">
                                     <i class="fa fa-usd"></i>
                                 </div>
-                                <input type="text" class="form-control" name="txttax" id="txttax" required>
+                                <input type="text" class="form-control" name="txttax" id="txttax" required readonly>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Descuento</label>
+                        <label>Descuento(Comision)</label>
                         
                         <div class="input-group">
                                 <div class="input-group-addon">
                                     <i class="fa fa-usd"></i>
                                 </div>
-                                <input type="text" class="form-control" name="txtdiscount" id="txtdiscount" required>
+                                <input type="text" class="form-control" name="txtdiscount" id="txtdiscount" required >
                         </div>
                     </div>
                 </div>
@@ -141,7 +141,7 @@ function fill_product($pdo){
                                 <div class="input-group-addon">
                                     <i class="fa fa-usd"></i>
                                 </div>
-                                <input type="text" class="form-control" name="txttotal" id="txttotal" required>
+                                <input type="text" class="form-control" name="txttotal" id="txttotal" required readonly>
                             </div>
                         </div>
                         <div class="form-group">
@@ -160,7 +160,7 @@ function fill_product($pdo){
                                 <div class="input-group-addon">
                                     <i class="fa fa-usd"></i>
                                 </div>
-                                <input type="text" class="form-control" name="txtdue" id="txtdue" required>
+                                <input type="text" class="form-control" name="txtdue" id="txtdue" required readonly>
                             </div>
                         </div>
 
@@ -256,7 +256,7 @@ function fill_product($pdo){
             tr.find(".price").val(data["saleprice"]); 
             tr.find(".qty").val(1);
             tr.find(".total").val( tr.find(".qty").val() *  tr.find(".price").val()); //
-                calculate(0,0); 
+            calculate(0,0); //Funcion para calcular subtotal
              }   
       })   
       })    
@@ -267,7 +267,7 @@ function fill_product($pdo){
          
          $(this).closest('tr').remove(); 
           calculate(0,0);
-          $("#txtpaid").val(0);
+          $("#txtpaid").val(0);//seteamos a cero al dar click en remove.
           
       }) // btnremove end here  
 
@@ -296,8 +296,57 @@ function fill_product($pdo){
          
      })   
 
-        // Start total calculation acording quantity
+        // end total calculation acording quantity
+        
+        ////Start function calculate subtotal, tax, net total
+        function calculate(dis,paid){// le pasamos el descuento y lo que pago
+         //variables a usar
+         var subtotal=0;
+         var tax=0;
+         var discount = dis;     
+         var net_total=0;
+         var paid_amt=paid;
+      var due=0;
+              
+              
+         $(".total").each(function(){
+             
+         subtotal = subtotal+($(this).val()*1); //calculanndo subtotal   
+             
+         })
+     //end function calculate subtotal, tax, net, descuento, due          
+     tax=0*subtotal;//calculando impuesto
+     net_total=tax+subtotal;  //50+1000 =1050 // calculando  total neto
+     net_total=net_total-discount;   //calculando 
+     due=net_total-paid_amt;  //total neto -  el total que pagó     
+              
+         
+     $("#txtsubtotal").val(subtotal.toFixed(2)); //mostrando subtotal en el textfield
+     $("#txttax").val(tax.toFixed(2));   //mostrando impuesto en el textfield
+     $("#txttotal").val(net_total.toFixed(2));//mostrando total neto en el textfield
+     $("#txtdiscount").val(discount); //mostrando descuento en el textfield (ingresar)
+     $("#txtdue").val(due.toFixed(2));//
+       
+              
+              
+          }
+    //end function calculate subtotal, tax, net total  
 
+    //inicio calculo de descuento y diferencia
+         $("#txtdiscount").keyup(function(){
+            var discount = $(this).val();
+            calculate(discount,0);
+            
+            
+         }) 
+                
+         $("#txtpaid").keyup(function(){
+            var paid = $(this).val();  
+            var discount = $("#txtdiscount").val();
+                calculate(discount,paid);
+            
+        }) 
+        //Fin calculo de descuento y diferencia     
 
 
 
@@ -308,3 +357,4 @@ function fill_product($pdo){
 <?php
   include_once'footer.php';
 ?>
+

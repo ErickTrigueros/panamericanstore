@@ -39,65 +39,66 @@ if($_SESSION['username']=="" OR $_SESSION['role']=="User"){//si la variable de s
             <!-- /.box-header -->
             <!-- form start -->
             
-                <div class="box-body">
-                <table id ="producttable" class="table table-Striped">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Codigo</th>
-                                <th>Nombre</th>
-                                <th>Categoria</th>
-                                
-                                <th>Material</th>
-                                <th>Color</th>
-                                <th>Precio compra</th>
-                                <th>Precio venta</th>
-                                
-                                <th>Existencias</th>
-                                
-                                <th>Imagen</th>
-                                <th>Ver</th>
-                                <th>Editar</th>
-                                <th>Eliminar</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $select=$pdo->prepare("select * from tbl_product order by idp asc");//Obtengo los datos
-                            $select->execute();//ejecuto la query
-                            while($row=$select->fetch(PDO::FETCH_OBJ)){//Recorro los registros los valores
-                                echo'<tr>
-                                <td>'.$row->idp.'</td>
-                                <td>'.$row->pcode.'</td>
-                                <td>'.$row->pname.'</td>
-                                <td>'.$row->pcategory.'</td>
-                                
-                                <td>'.$row->pmaterial.'</td>
-                                <td>'.$row->pcolor.'</td>
-                                <td>'.$row->purchaseprice.'</td>
-                                <td>'.$row->saleprice.'</td>
-                                
-                                <td>'.$row->pstock.'</td>
-                                
-                                <td><img src="productimages/'.$row->pimage.'" class="img-rounded" width="40px" height="40px"/></td>
-                                <td>
-                                <a href="viewproduct.php?id='.$row->idp.'" class="btn btn-success" role="button">
-                                <span class="glyphicon glyphicon-eye-open" style="color:#ffffff" data-toggle="tooltip" title="Ver Producto"></span></a>
-                                </td>
-                                <td>
-                                <a href="editproduct.php?id='.$row->idp.'" class="btn btn-info" role="button">
-                                <span class="glyphicon glyphicon-edit" style="color:#ffffff" data-toggle="tooltip" title="Editar Producto"></span></a>
-                                </td>
-                                <td>
-                                <button id='.$row->idp.' class="btn btn-danger btndelete" ><span class="glyphicon glyphicon-trash" style="color:#ffffff" data-toggle="tooltip"  title="Eliminar Producto"></span></button>
-                                </td>
-                                
-                            </tr>';
-                            }
-                            ?>
-                        </tbody>
-                    </table>
-
+              <div class="box-body">
+                <div style="overflow-x:auto;" > <!-- Inicio scroll para tabla -->
+                    <table id ="producttable" class="table table-Striped">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Codigo</th>
+                                    <th>Nombre</th>
+                                    <th>Categoria</th>
+                                    
+                                    <th>Material</th>
+                                    <th>Color</th>
+                                    <th>Precio compra</th>
+                                    <th>Precio venta</th>
+                                    
+                                    <th>Existencias</th>
+                                    
+                                    <th>Imagen</th>
+                                    <th>Ver</th>
+                                    <th>Editar</th>
+                                    <th>Eliminar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $select=$pdo->prepare("select * from tbl_product order by idp asc");//Obtengo los datos
+                                $select->execute();//ejecuto la query
+                                while($row=$select->fetch(PDO::FETCH_OBJ)){//Recorro los registros los valores
+                                    echo'<tr>
+                                    <td>'.$row->idp.'</td>
+                                    <td>'.$row->pcode.'</td>
+                                    <td>'.$row->pname.'</td>
+                                    <td>'.$row->pcategory.'</td>
+                                    
+                                    <td>'.$row->pmaterial.'</td>
+                                    <td>'.$row->pcolor.'</td>
+                                    <td>'.$row->purchaseprice.'</td>
+                                    <td>'.$row->saleprice.'</td>
+                                    
+                                    <td>'.$row->pstock.'</td>
+                                    
+                                    <td><img src="productimages/'.$row->pimage.'" class="img-rounded" width="40px" height="40px"/></td>
+                                    <td>
+                                    <a href="viewproduct.php?id='.$row->idp.'" class="btn btn-success" role="button">
+                                    <span class="glyphicon glyphicon-eye-open" style="color:#ffffff" data-toggle="tooltip" title="Ver Producto"></span></a>
+                                    </td>
+                                    <td>
+                                    <a href="editproduct.php?id='.$row->idp.'" class="btn btn-info" role="button">
+                                    <span class="glyphicon glyphicon-edit" style="color:#ffffff" data-toggle="tooltip" title="Editar Producto"></span></a>
+                                    </td>
+                                    <td>
+                                    <button id='.$row->idp.' class="btn btn-danger btndelete" ><span class="glyphicon glyphicon-trash" style="color:#ffffff" data-toggle="tooltip"  title="Eliminar Producto"></span></button>
+                                    </td>
+                                    
+                                </tr>';
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                      </div><!-- Fin scroll para tabla -->
                 </div>
             </div><!-- FIN DE LISTADO DE PRODUCTOS -->
 

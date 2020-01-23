@@ -20,7 +20,89 @@ function fill_product($pdo){
      return $output;   
         
     }
- //Fin funcion para llenar select de porduct   
+ //Fin funcion para llenar select de porduct 
+ 
+ //Inicio para obtener valores de los textbox y guardarlos en BD
+ if(isset($_POST['btnsaveorder'])){
+    //Obtengo datos de campos de texto y guardo en variables
+    $customer_name=$_POST['txtcustomer'];
+    $order_date=date('Y-m-d',strtotime($_POST['orderdate']));
+    $subtotal=$_POST["txtsubtotal"];
+    $tax=$_POST['txttax'];
+    $discount=$_POST['txtdiscount'];
+    $total=$_POST['txttotal'];
+    $paid=$_POST['txtpaid'];
+    $due=$_POST['txtdue'];
+    $payment_type=$_POST['rb'];
+    ////////////////////////////////
+    ///INSERTANDO EN tbl_invoice//////////
+    //tenemos array de valores en las variables
+    $arr_productid=$_POST['productid'];
+    $arr_productname=$_POST['productname'];
+    $arr_stock=$_POST['stock'];
+    $arr_qty=$_POST['qty'];
+    $arr_price=$_POST['price'];
+    $arr_total=$_POST['total'];
+
+    $insert=$pdo->prepare("insert into tbl_invoice(customer_name,order_date,subtotal,tax,discount,total,paid,due,payment_type) values(:cust,:orderdate,:stotal,:tax,:disc,:total,:paid,:due,:ptype)");
+    
+    $insert->bindParam(':cust',$customer_name);
+    $insert->bindParam(':orderdate',$order_date);
+    $insert->bindParam(':stotal', $subtotal);
+    $insert->bindParam(':tax',$tax);
+    $insert->bindParam(':disc',$discount);
+    $insert->bindParam(':total',$total);
+    $insert->bindParam(':paid',$paid);
+    $insert->bindParam(':due',$due);
+    $insert->bindParam(':ptype',$payment_type);
+   
+   $insert->execute();
+    ///FIN INSERTANDO EN tbl_invoice//////////
+
+   //INSERTANDO EN tbl_invoice_details
+   $invoice_id=$pdo->lastInsertId();
+   if($invoice_id!=null){
+   
+for($i=0 ; $i<count($arr_productid) ; $i++){
+   
+   //Actualizando Stock
+   $rem_qty = $arr_stock[$i]-$arr_qty[$i];
+   
+   if($rem_qty<0){
+       
+       return"Order Is Not Complete";
+   }else{
+       
+      $update=$pdo->prepare("update tbl_product SET pstock ='$rem_qty' where pid='".$arr_productid[$i]."'");
+       
+       $update->execute();
+      
+   }
+   //FIN Actualizando Stock
+
+  $insert=$pdo->prepare("insert into tbl_invoice_details(invoice_id,product_id,product_name,qty,price,order_date) values(:invid,:pid,:pname,:qty,:price,:orderdate)");
+   
+   $insert->bindParam(':invid',$invoice_id);
+   $insert->bindParam(':pid', $arr_productid[$i]);
+   $insert->bindParam(':pname',$arr_productname[$i]);
+   $insert->bindParam(':qty',$arr_qty[$i]);
+   $insert->bindParam(':price',$arr_price[$i]);
+   $insert->bindParam(':orderdate',$order_date);
+    
+   
+   $insert->execute();
+   
+}        
+echo "orden creada satisfactoriamente";
+  //  echo"success fully created order";    
+  header('location:orderlist.php');     
+       
+   }
+   //FIN INSERTANDO EN tbl_invoice_details
+ }
+
+ //FIN para obtener valores de los textbox y guardarlos en BD
+
   include_once'header.php';
 ?>
 
@@ -151,7 +233,7 @@ function fill_product($pdo){
                                     <i class="fa fa-usd"></i>
                                 </div>
 
-                                <input type="text" class="form-control" name="txtpaid"  id="txtpaid" required>
+                                <input type="text" class="form-control" name="txtpaid" value="0"  id="txtpaid" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -172,12 +254,12 @@ function fill_product($pdo){
                                 <input type="radio" name="rb" class="minimal-red" value="Cash" checked> EFECTIVO
                             </label>
                             <label>
-                                <input type="radio" name="rb" class="minimal-red" value="Card"> TARJETA
+                                <input type="radio" name="rb" class="minimal-red" value="Card" readonly> TARJETA
                             </label>
-                            <label>
+                            <!--<label>
                                 <input type="radio" name="rb" class="minimal-red" value="Check">
                                 CHEQUE
-                            </label>
+                            </label> -->
                         </div>
                         <!-- end radio -->
 

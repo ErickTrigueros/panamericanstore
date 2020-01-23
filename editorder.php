@@ -19,11 +19,41 @@ function fill_product($pdo){
         
      return $output;   
         
-    }
- //Fin funcion para llenar select de porduct 
+    }//Fin funcion para llenar select de product 
+
+    /** *****INICIO CODIGO PARA ACTUALIZAR PEDIDO****** */
+
+    //codigo para mostrar datos del pedido
+    $id=$_GET['id'];
+$select=$pdo->prepare("select * from tbl_invoice where invoice_id =$id");
+$select->execute();
+
+$row=$select->fetch(PDO::FETCH_ASSOC);
+
+ $customer_name=$row['customer_name'];
+    $order_date=date('Y-m-d',strtotime($row['order_date']));
+    $subtotal=$row["subtotal"];
+    $tax=$row['tax'];
+    $discount=$row['discount'];
+    $total=$row['total'];
+    $paid=$row['paid'];
+    $due=$row['due'];
+    $payment_type=$row['payment_type'];
+//fin codigo para mostrar datos del pedido
+
+//inicio codigo para mostrar detalles del pedido
+$select=$pdo->prepare("select * from tbl_invoice_details where invoice_id =$id");
+$select->execute();
+
+$row_invoice_details=$select->fetchAll(PDO::FETCH_ASSOC);
+
+//fin codigo para mostrar detalles del pedido
+
+    /** ******FIN CODIGO PARA ACTUALIZAR PEDIDO******** */
  
- //Inicio para obtener valores de los textbox y guardarlos en BD
- if(isset($_POST['btnsaveorder'])){
+ 
+ //Inicio para obtener valores de los textbox y actualizarlos  en BD
+ if(isset($_POST['btnupdateorder'])){
     //Obtengo datos de campos de texto y guardo en variables para guardar en tbl_invoice
     $customer_name=$_POST['txtcustomer'];
     $order_date=date('Y-m-d',strtotime($_POST['orderdate']));
@@ -117,7 +147,7 @@ echo "Orden creada satisfactoriamente";
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Crear pedido
+        Editar pedido
         <small></small>
       </h1>
       <ol class="breadcrumb">
@@ -136,7 +166,7 @@ echo "Orden creada satisfactoriamente";
         <div class="box box-warning">
             <form action="" method="post" name="">
             <div class="box-header with-border">
-              <h3 class="box-title">Nueva pedido</h3>
+              <h3 class="box-title">Editar pedido</h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->
@@ -149,7 +179,7 @@ echo "Orden creada satisfactoriamente";
                                 <div class="input-group-addon">
                                     <i class="fa fa-user"></i>
                                 </div>
-                                <input type="text" class="form-control" name="txtcustomer" value="<?php echo $_SESSION['name']." ".$_SESSION['surname'];?>" placeholder="Nombre de vendedor" required readonly>
+                                <input type="text" class="form-control" name="txtcustomer" value="<?php echo $customer_name?>" required readonly><!-- Pasamos el nombre de vendedor por medio de la variable -->
                         </div>                
                     </div>
                 </div>
@@ -161,7 +191,7 @@ echo "Orden creada satisfactoriamente";
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" class="form-control pull-right" id="datepicker" name="orderdate" value="<?php echo date("Y-m-d");?>"  data-date-format="yyyy-mm-dd">
+                                <input type="text" class="form-control pull-right" id="datepicker" name="orderdate" value="<?php echo $order_date?>"  data-date-format="yyyy-mm-dd">
                             </div>
                             <!-- /.input group -->
                     </div>
@@ -183,10 +213,25 @@ echo "Orden creada satisfactoriamente";
                                         <th>Ingrese cantidad</th>
                                         <th>Total</th>
                                         <th>
-                                        <center> <button type="button" name="add" class="btn btn-success btn-sm btnadd"><span class="glyphicon glyphicon-plus"></span></button> </center>
+                                        <center> <button type="button" name="add" class="btn btn-info btn-sm btnadd"><span class="glyphicon glyphicon-plus"></span></button> </center>
                                         </th>
                                     </tr>
                                 </thead>
+                                <!-- -->
+                                <?php
+                            foreach($row_invoice_details as $item_invoice_details){
+                                
+                            $select=$pdo->prepare("select * from tbl_product where idp ='{$item_invoice_details['product_id']}'");
+                            $select->execute();
+                            $row_product=$select->fetch(PDO::FETCH_ASSOC); 
+                                
+                            
+                                ?>
+
+
+
+
+
                         </table>        
                     </div>
                 </div>
@@ -200,7 +245,7 @@ echo "Orden creada satisfactoriamente";
                                 <div class="input-group-addon">
                                     <i class="fa fa-usd"></i>
                                 </div>
-                                <input type="text" class="form-control" name="txtsubtotal" id="txtsubtotal" required readonly>
+                                <input type="text" class="form-control" value="<?php echo $subtotal?>" name="txtsubtotal" id="txtsubtotal" required readonly>
                         </div>
                     </div>
                     <div class="form-group">
@@ -209,7 +254,7 @@ echo "Orden creada satisfactoriamente";
                                 <div class="input-group-addon">
                                     <i class="fa fa-usd"></i>
                                 </div>
-                                <input type="text" class="form-control" name="txttax" id="txttax" required readonly>
+                                <input type="text" class="form-control" value="<?php echo $tax?>" name="txttax" id="txttax" required readonly>
                         </div>
                     </div>
                     <div class="form-group">
@@ -219,7 +264,7 @@ echo "Orden creada satisfactoriamente";
                                 <div class="input-group-addon">
                                     <i class="fa fa-usd"></i>
                                 </div>
-                                <input type="text" class="form-control" name="txtdiscount" id="txtdiscount" required >
+                                <input type="text" class="form-control" value="<?php echo $discount?>" name="txtdiscount" id="txtdiscount" required >
                         </div>
                     </div>
                 </div>
@@ -230,7 +275,7 @@ echo "Orden creada satisfactoriamente";
                                 <div class="input-group-addon">
                                     <i class="fa fa-usd"></i>
                                 </div>
-                                <input type="text" class="form-control" name="txttotal" id="txttotal" required readonly>
+                                <input type="text" class="form-control" value="<?php echo $total?>" name="txttotal" id="txttotal" required readonly>
                             </div>
                         </div>
                         <div class="form-group">
@@ -240,7 +285,7 @@ echo "Orden creada satisfactoriamente";
                                     <i class="fa fa-usd"></i>
                                 </div>
 
-                                <input type="text" class="form-control" name="txtpaid" value="0"  id="txtpaid" required>
+                                <input type="text" class="form-control" value="<?php echo $paid?>" name="txtpaid" value="0"  id="txtpaid" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -249,7 +294,7 @@ echo "Orden creada satisfactoriamente";
                                 <div class="input-group-addon">
                                     <i class="fa fa-usd"></i>
                                 </div>
-                                <input type="text" class="form-control" name="txtdue" id="txtdue" required readonly>
+                                <input type="text" class="form-control" value="<?php echo $due?>" name="txtdue" id="txtdue" required readonly>
                             </div>
                         </div>
 
@@ -257,16 +302,16 @@ echo "Orden creada satisfactoriamente";
                          <label>Metodo de pago</label>
                         <div class="form-group">
 
-                            <label>
-                                <input type="radio" name="rb" class="minimal-red" value="Cash" checked> EFECTIVO
+                        <label>
+<input type="radio" name="rb" class="minimal-red" value="Cash"<?php echo ($payment_type=='Cash')?'checked':''?>> CASH
                             </label>
                             <label>
-                                <input type="radio" name="rb" class="minimal-red" value="Card" readonly> TARJETA
+<input type="radio" name="rb" class="minimal-red" value="Card"<?php echo ($payment_type=='Card')?'checked':''?> > CARD
                             </label>
                             <!--<label>
-                                <input type="radio" name="rb" class="minimal-red" value="Check">
-                                CHEQUE
-                            </label> -->
+<input type="radio" name="rb" class="minimal-red" value="Check"<?php echo ($payment_type=='Check')?'checked':''?> >
+                                CHECK
+                            </label>-->
                         </div>
                         <!-- end radio -->
 
@@ -276,7 +321,7 @@ echo "Orden creada satisfactoriamente";
 
                 <div align="center">
 
-                    <input type="submit" name="btnsaveorder" value="Guardar Pedido" class="btn btn-info">
+                    <input type="submit" name="btnupdateorder" value="Actualizar Pedido" class="btn btn-warning">
 
                 </div>
 

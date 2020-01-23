@@ -106,6 +106,7 @@ if($_SESSION['username']=="" OR $_SESSION['role']=="User"){//si la variable de s
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+  
    <!-- /.Call this function for DATATABLES -->
    <script>
       $(document).ready( function () {
@@ -114,12 +115,13 @@ if($_SESSION['username']=="" OR $_SESSION['role']=="User"){//si la variable de s
     });
     } );
   </script>
-   <!-- /.Call this function for DATATABLES -->
+  
    <script>
       $(document).ready( function () {
         $('[data-togle="tooltip"]').tooltip();
     } );
   </script>
+   <!-- /. End Call this function for DATATABLES -->
 
   <!-- Start Script para eliminar producto-->
         <script>

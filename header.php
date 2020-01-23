@@ -204,7 +204,7 @@ desired effect
 
         <li><a href="productlist.php"><i class="fa fa-th-list"></i> <span>Lista de productos</span></a></li>
 
-        <li><a href="createorder.php"><i class="fa fa-th-list"></i> <span>Crear orden</span></a></li>
+        <li><a href="createorder.php"><i class="fa fa-th-list"></i> <span>Crear Pedido</span></a></li>
 
         <li><a href="registration.php"><i class="fa fa-registered"></i> <span>Registrar usuarios</span></a></li>
         <!--

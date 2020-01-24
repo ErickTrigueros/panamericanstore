@@ -22,7 +22,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- DataTables -->
 <script src="bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-
+<!-- chart-->
+<script src="Chart.js-2.8.0/dist/Chart.min.js"></script>
 
  <!-- Select2 -->
  <link rel="stylesheet" href="bower_components/select2/dist/css/select2.min.css">
@@ -196,7 +197,7 @@ desired effect
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu" data-widget="tree">
         
-        <li><a href="dashboard.php"><i class="fa fa-dashboard"></i> <span>Inicio</span></a></li>
+        <li><a href="dashboard.php"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
 
         <li><a href="category.php"><i class="fa fa-list-alt"></i> <span>Categoria de productos</span></a></li>
 
@@ -207,6 +208,19 @@ desired effect
         <li><a href="createorder.php"><i class="fa fa-first-order"></i> <span>Crear Pedido</span></a></li>
 
         <li><a href="orderlist.php"><i class="fa fa-list-ul"></i> <span>Lista de Pedidos</span></a></li>
+
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-table"></i> <span>Reporte de ventas</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="tablereport.php"><i class="fa fa-circle-o"></i>Tablas</a></li>
+            <li><a href="graphreport.php"><i class="fa fa-circle-o"></i>Graficos</a></li>
+          </ul>
+        </li>
 
         <li><a href="registration.php"><i class="fa fa-registered"></i> <span>Registrar usuarios</span></a></li>
         <!--

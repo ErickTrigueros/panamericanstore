@@ -69,7 +69,7 @@
                                         <td>'.$row->payment_type.'</td>
                                         
                                         <td>
-                                        <a href="viewproduct.php?id='.$row->invoice_id.'" class="btn btn-warning" role="button">
+                                        <a href="invoice_80mm.php?id='.$row->invoice_id.'" class="btn btn-warning" role="button" target="_blank">
                                         <span class="glyphicon glyphicon-print" style="color:#ffffff" data-toggle="tooltip" title="Imprimir factura"></span></a>
                                         </td>
                                         <td>
@@ -107,6 +107,53 @@
       $(document).ready( function () {
         $('[data-togle="tooltip"]').tooltip();
     } );
+
+    /** Inicio boton elimiar */
+
+    $(document).ready(function() {
+    $('.btndelete').click(function() {
+            var tdh = $(this);
+            var id = $(this).attr("id");
+             swal({
+  title: "¿Eliminar pedido?",
+  text: "Una vez eliminado, no podra ser recuperado!",
+  icon: "warning",
+  buttons: true,
+  dangerMode: true,
+})
+.then((willDelete) => {
+  if (willDelete) {
+      
+       $.ajax({
+                            url: 'orderdelete.php',
+                            type: 'post',
+                            data: {
+                            pidd: id
+                            },
+                            success: function(data) {
+                            tdh.parents('tr').hide();
+                            }
+
+
+                        });
+      
+      
+      
+    swal("Pedido eliminado!", {
+      icon: "success",
+    });
+  } else {
+    swal("Pedido no eliminado!");
+  }
+});
+            
+                     
+
+        });
+    });     
+
+    /** FIN boton elimiar */
+
   </script>
    <!-- /. End Call this function for DATATABLES -->
 <?php

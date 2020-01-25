@@ -1,6 +1,9 @@
 <?php
 include_once'connectdb.php';
 session_start();
+if($_SESSION['username']=="" OR $_SESSION['role']==""){//si la variable de sesion que contiene el usuario esta vacia o es un rol de usuario mandarlo al index.
+    header('location:index.php');//redirigir a index(Login), si tratamos de abrir registration.php, no dejara porque la variable de sesion username esta vacia o la variable de sesion esta con usuario
+  }
 //Inicio funcion para llenar select de porduct
 function fill_product($pdo, $idp){
     
@@ -165,7 +168,14 @@ while($rowpdt=$selectpdt->fetch(PDO::FETCH_OBJ)){
 
  //FIN para obtener valores de los textbox y guardarlos en BD
 
-  include_once'header.php';
+ if($_SESSION['role']=="Admin"){
+    
+    
+    include_once'header.php';  
+ }else{
+     
+   include_once'headeruser.php';   
+ }
 ?>
 
   <!-- Content Wrapper. Contains page content -->

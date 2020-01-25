@@ -1,9 +1,18 @@
 <?php
     include_once'connectdb.php';
     session_start();
+    if($_SESSION['username']=="" OR $_SESSION['role']==""){//si la variable de sesion que contiene el usuario esta vacia o es un rol de usuario mandarlo al index.
+      header('location:index.php');//redirigir a index(Login), si tratamos de abrir registration.php, no dejara porque la variable de sesion username esta vacia o la variable de sesion esta con usuario
+    }
 
-
-  include_once'header.php';
+    if($_SESSION['role']=="Admin"){
+    
+    
+      include_once'header.php';  
+   }else{
+       
+     include_once'headeruser.php';   
+   }
 ?>
 
   <!-- Content Wrapper. Contains page content -->
@@ -40,14 +49,14 @@
                         <table id ="orderlisttable" class="table table-Striped">
                                 <thead>
                                     <tr>
-                                        <th>Numero de pedido</th>
-                                        <th>Nombre vendedor</th>
-                                        <th>Fecha de pedido</th>
+                                        <th>ID pedido</th>
+                                        <th>Nombre Vendedor</th>
+                                        <th>Fecha de Pedido</th>
                                         <th>Total</th>
                                         
                                         <th>Pagó</th>
                                         <th>Diferencia</th>
-                                        <th>Tipo de pago</th>
+                                        <th>Tipo de Pago</th>
                                     
                                         <th>Imprimir</th>
                                         <th>Editar</th>

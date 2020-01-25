@@ -2,6 +2,9 @@
 include_once'connectdb.php';
 error_reporting(0);
 session_start();
+if($_SESSION['username']=="" OR $_SESSION['role']=="User"){//si la variable de sesion que contiene el usuario esta vacia o es un rol de usuario mandarlo al index.
+  header('location:index.php');//redirigir a index(Login), si tratamos de abrir registration.php, no dejara porque la variable de sesion username esta vacia o la variable de sesion esta con usuario
+}
 
 include_once'header.php';
 
@@ -11,7 +14,7 @@ include_once'header.php';
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-      Graph Report
+      Reporte Gráfico
         <small></small>
       </h1>
       <ol class="breadcrumb">
@@ -30,17 +33,12 @@ include_once'header.php';
             <form  action="" method="post" name="">
            
             <div class="box-header with-border">
-                <h3 class="box-title">From : <?php echo $_POST['date_1']?> -- To : <?php echo $_POST['date_2']?></h3>
+                <h3 class="box-title">Desde : <?php echo $_POST['date_1']?> -- Hasta : <?php echo $_POST['date_2']?></h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-
-
-
-
-              <div class="box-body">
-                 
-                            
+        <div class="box-body">
+                    
         <div class="row">
             
         <div class="col-md-5">
@@ -67,61 +65,60 @@ include_once'header.php';
            
         <div class="col-md-2">
              <div align="left">
-                    <input type="submit" name="btndatefilter" value="Filter By Date" class="btn btn-success">
+                    <input type="submit" name="btndatefilter" value="Filtrar por Fecha" class="btn btn-success">
 
                 </div>   
         </div>                  
         </div>  
                      <br>
                      <br>   
-                 
-                   <?php
-    $select=$pdo->prepare("select order_date, sum(total) as price from tbl_invoice  where order_date between :fromdate AND :todate group by order_date");
-      $select->bindParam(':fromdate',$_POST['date_1']);  
-             $select->bindParam(':todate',$_POST['date_2']);  
-            
-    $select->execute();
+        <!--Inicio de Query para mostrar datos ventas -->         
+        <?php
+            $select=$pdo->prepare("select order_date, sum(total) as price from tbl_invoice  where order_date between :fromdate AND :todate group by order_date");
+            $select->bindParam(':fromdate',$_POST['date_1']);  
+            $select->bindParam(':todate',$_POST['date_2']);  
+                    
+            $select->execute();
+                          
+            $total=[];
+            $date=[];              
+                              
+            while($row=$select->fetch(PDO::FETCH_ASSOC)  ){
+                      
+               extract($row);
+                      
+                $total[]=$price;
+                $date[]=$order_date;
+                
+                
+            }
+                          // echo json_encode($total);                    
+        ?> <!--Fin de Query para mostrar datos ventas --> 
+          <div class="chart">
+              <canvas id="myChart" style="height:250px"></canvas>    
+          </div>
+        <?php
+          $select=$pdo->prepare("select product_name, sum(qty) as q from tbl_invoice_details  where order_date between :fromdate AND :todate group by product_id");
+          $select->bindParam(':fromdate',$_POST['date_1']);  
+          $select->bindParam(':todate',$_POST['date_2']);  
                   
-    $total=[];
-    $date=[];              
-            
-while($row=$select->fetch(PDO::FETCH_ASSOC)  ){
-    
-extract($row);
-    
-    $total[]=$price;
-    $date[]=$order_date;
-    
-    
-}
-               // echo json_encode($total);                    
-                  ?>
+          $select->execute();
+                        
+          $pname=[];
+          $qty=[];              
+                  
+          while($row=$select->fetch(PDO::FETCH_ASSOC)  ){
+          
+          extract($row);
+          
+          $pname[]=$product_name;
+          $qty[]=$q;
+          
+          
+            }
+                    // echo json_encode($total);  
+        ?>
                   <div class="chart">
-                      <canvas id="myChart" style="height:250px"></canvas>    
-                  </div>
-                    <?php
-    $select=$pdo->prepare("select product_name, sum(qty) as q from tbl_invoice_details  where order_date between :fromdate AND :todate group by product_id");
-      $select->bindParam(':fromdate',$_POST['date_1']);  
-             $select->bindParam(':todate',$_POST['date_2']);  
-            
-    $select->execute();
-                  
-    $pname=[];
-    $qty=[];              
-            
-while($row=$select->fetch(PDO::FETCH_ASSOC)  ){
-    
-extract($row);
-    
-    $pname[]=$product_name;
-    $qty[]=$q;
-    
-    
-}
-               // echo json_encode($total);  
-                  
-                  ?>
-                    <div class="chart">
                       <canvas id="bestsellingproduct" style="height:250px"></canvas>  
                   </div>
     
@@ -134,17 +131,17 @@ extract($row);
   <!-- /.content-wrapper -->
   
   
-  <script>
+  <script>/** Script para calcular la ganancia */
 var ctx = document.getElementById('myChart').getContext('2d');
 var chart = new Chart(ctx, {
     // The type of chart we want to create
-    type: 'bar',
+    type: 'bar', //line, pie,radar
 
     // The data for our dataset
     data: {
         labels: <?php echo json_encode($date);?>,
         datasets: [{
-            label: 'Total Earning',
+            label: 'Ganancia Total',
         backgroundColor: 'rgb(255, 99, 132)',
             borderColor: 'rgb(255, 99, 132)',
            
@@ -156,13 +153,10 @@ var chart = new Chart(ctx, {
     options: {}
 });
 
-
-
-
-</script>
+</script><!--Fin Script para calcular la ganancia */-->
  
  
- <script>
+ <script>/** Script para calcular producto mas vendido */
 var ctx = document.getElementById('bestsellingproduct').getContext('2d');
 var chart = new Chart(ctx, {
     // The type of chart we want to create
@@ -172,7 +166,7 @@ var chart = new Chart(ctx, {
     data: {
         labels: <?php echo json_encode($pname);?>,
         datasets: [{
-            label: 'Total Qunatity',
+            label: 'Cantidad Total',
              backgroundColor: 'rgb(102, 255, 102)',
             borderColor: 'rgb(0, 102, 0)',
             data:<?php echo json_encode($qty);?>
@@ -182,17 +176,10 @@ var chart = new Chart(ctx, {
     // Configuration options go here
     options: {}
 });
+</script> <!--Fin Script para calcular producto mas vendido */-->
 
+  <script>/** Script para date pickers */
 
-</script>
-  
- 
- 
-  
-  
-  <script>
-   
-    
     //Date picker
     $('#datepicker1').datepicker({
         autoclose: true
@@ -204,10 +191,8 @@ var chart = new Chart(ctx, {
     $('#datepicker2').datepicker({
         autoclose: true
     });  
-  
-      
-    
-</script>
+ 
+</script><!-- Fin Script para date pickers */-->
   
 
   <?php

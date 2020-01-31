@@ -105,7 +105,7 @@ for($i=0 ; $i<count($arr_productid) ; $i++){
 }        
 echo "Orden creada satisfactoriamente";
   //  echo"success fully created order";    
-  header('location:orderlist.php');     
+  header('location:orderlistuser.php');     
        
    }
    //FIN INSERTANDO EN tbl_invoice_details///////
@@ -245,7 +245,7 @@ echo "Orden creada satisfactoriamente";
                                 <input type="text" class="form-control" name="txttotal" id="txttotal" required readonly>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group hidden ">
                             <label>Pagó</label>
                             <div class="input-group">
                                 <div class="input-group-addon">
@@ -255,7 +255,7 @@ echo "Orden creada satisfactoriamente";
                                 <input type="text" class="form-control" name="txtpaid" value="0"  id="txtpaid" required>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group hidden">
                             <label>Diferencia</label>
                             <div class="input-group">
                                 <div class="input-group-addon">

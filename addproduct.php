@@ -250,11 +250,11 @@ if($_SESSION['username']=="" OR $_SESSION['role']=="User"){//si la variable de s
                     <!-- Fin seleccionar Color -->
                     <div class="form-group">
                     <label >Precio compra</label>
-                    <input type="number" min="1" step="1" class="form-control" name="txtpprice" placeholder="Ingresar precio compra" required><!-- minimo de cantidad y step, es el incremento, 1 a 1 -->
+                    <input type="number" min="0.01" step="0.01" class="form-control" name="txtpprice" placeholder="Ingresar precio compra" required><!-- minimo de cantidad y step, es el incremento, 1 a 1 -->
                     </div>
                     <div class="form-group">
                     <label>Precio venta</label>
-                    <input type="number" min="1" step="1" class="form-control" name="txtsaleprice" placeholder="Ingresar precio de venta" required><!-- minimo de cantidad y step, es el incremento, 1 a 1 -->
+                    <input type="number" min="0.01" step="0.01" class="form-control" name="txtsaleprice" placeholder="Ingresar precio de venta" required><!-- minimo de cantidad y step, es el incremento, 1 a 1 -->
                     </div>  
                     <div class="form-group">
                     <label>Observaciones</label>

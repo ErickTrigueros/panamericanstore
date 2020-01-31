@@ -343,11 +343,11 @@ $row=$select->fetch(PDO::FETCH_ASSOC);//Recorro los registros los valores
                     <!-- Fin seleccionar Color -->
                     <div class="form-group">
                     <label >Precio compra</label>
-                    <input type="number" min="1" step="1" class="form-control" name="txtpprice" value="<?php echo $purchaseprice_db;?>" placeholder="Ingresar precio compra" required><!-- minimo de cantidad y step, es el incremento, 1 a 1 -->
+                    <input type="number" min="0.01" step="0.01" class="form-control" name="txtpprice" value="<?php echo $purchaseprice_db;?>" placeholder="Ingresar precio compra" required><!-- minimo de cantidad y step, es el incremento, 1 a 1 -->
                     </div>
                     <div class="form-group">
                     <label>Precio venta</label>
-                    <input type="number" min="1" step="1" class="form-control" name="txtsaleprice" value="<?php echo $saleprice_db;?>" placeholder="Ingresar precio de venta" required><!-- minimo de cantidad y step, es el incremento, 1 a 1 -->
+                    <input type="number" min="0.01" step="0.01" class="form-control" name="txtsaleprice" value="<?php echo $saleprice_db;?>" placeholder="Ingresar precio de venta" required><!-- minimo de cantidad y step, es el incremento, 1 a 1 -->
                     </div>  
                     <div class="form-group">
                     <label>Observaciones</label>

@@ -15,8 +15,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<!-- iCheck -->
-<script src="plugins/iCheck/icheck.min.js"></script>
+
+<!-- AdminLTE App -->
+<script src="dist/js/adminlte.min.js"></script>
+
 <!-- Sweetalert plugin -->
 <script src="bower_components/sweetalert/sweetalert.js"></script>
 <!-- DataTables -->
@@ -39,6 +41,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
         page. However, you can choose any other skin. Make sure you
         apply the skin class to the body tag so the changes take effect. -->
   <link rel="stylesheet" href="dist/css/skins/skin-blue.min.css">
+<!--FOR SHOW PRODUCTS-->
+
+  <!-- Custom stlylesheet -->
+  <link type="text/css" rel="stylesheet" href="css/style.css"/>
+  <!--END FOR SHOW PRODUCTS-->
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -197,11 +204,11 @@ desired effect
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu" data-widget="tree">
         
-        <li><a href="user.php"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+        <li><a href="user.php"><i class="fa fa-dashboard"></i> <span>Productos</span></a></li>
 
-        <li><a href="createorder.php"><i class="fa fa-first-order"></i> <span>Crear Pedido</span></a></li>
+        <li><a href="createorderuser.php"><i class="fa fa-first-order"></i> <span>Crear Pedido</span></a></li>
 
-        <li><a href="orderlist.php"><i class="fa fa-list-ul"></i> <span>Lista de Pedidos</span></a></li>
+        <li><a href="orderlistuser.php"><i class="fa fa-list-ul"></i> <span>Lista de Pedidos</span></a></li>
 
         <!--
         <li class="treeview">

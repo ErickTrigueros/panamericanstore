@@ -9,7 +9,7 @@
 <script src="bower_components/sweetalert/sweetalert.js"></script>
 
 <?php
-  include_once'connectdb.php';
+  include_once'pages/connectdb.php';
   session_start();
   if(isset($_POST['btn_login'])){
     $username = $_POST['txt_username'];
@@ -41,7 +41,7 @@
           });
         });
         </script>';
-        header('refresh:2;dashboard.php');//se redirigirá a dashboard.php después de 1 seg
+        header('refresh:1;pages/dashboard.php');//se redirigirá a dashboard.php después de 1 seg
       }else if($row['username']==$username AND
       $row['password']==$password AND $row['role']=="User"){// si es User
         //Guardamos todo en variables de sesion para poder usarlas porteriormente
@@ -62,7 +62,7 @@
           });
         });
         </script>';
-        header('refresh:1;user.php');//se redirigirá a user.php después de 1 seg
+        header('refresh:1;pages/user.php');//se redirigirá a user.php después de 1 seg
 
     }else{
       echo '<script type="text/javascript">

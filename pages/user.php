@@ -113,6 +113,7 @@ echo '<script type="text/javascript">
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i>User</a></li>
         <li class="active">Catlogo de Productos</li>
+        
       </ol>
 
     
@@ -142,8 +143,8 @@ echo '<script type="text/javascript">
                           <div class="product-body">
                             <p class="product-category"><?php echo $row->pcode?></p>
                             <h3 class="product-name"><a href="#"><?php echo $row->pname?></a></h3>
-                            <!--<h4 class="product-price">$'.$row->saleprice.'<del class="product-old-price">$0.00</del></h4>-->
-                            <button type="button" class="btn btn-sm btn-danger" data-toggle="popover" data-placement="bottom" title="$<?php echo $row->saleprice?>" data-content="">Precio</button>
+                            <h4 class="product-price">$ <?php echo $row->saleprice?> <del class="product-old-price">$7.00</del></h4>
+                            <!--<button type="button" class="btn btn-sm btn-danger" data-toggle="popover" data-placement="bottom" title="$" data-content="">Precio</button>-->
                             <div class="product-rating">
                               <i class="fa fa-star"></i>
                               <i class="fa fa-star"></i>
@@ -203,6 +204,25 @@ echo '<script type="text/javascript">
     $('[data-toggle="popover"]').popover()
   });
   //<!-- End popover-->
+  //Start hide and show prices
+  //with toggle with 1 button
+ $(document).ready(function(){  
+	$("#switchprice").click(function () {
+            $('h4').toggle("slow");
+        });
+  });
+  //Only with Jquery
+  $(document).ready(function(){
+  $("#hide").click(function(){
+    $("h4").hide();
+  });
+  $("#show").click(function(){
+    $("h4").show();
+  });
+});
+  //Finish hide and show prices
+
+  //Finish hide and show prices
 
    //Date picker
    $('#datepicker').datepicker({

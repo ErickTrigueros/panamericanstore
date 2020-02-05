@@ -238,7 +238,19 @@ desired effect
             <li><a href="graphreport.php"><i class="fa fa-circle-o"></i>Graficos</a></li>
           </ul>
         </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-registered"></i> <span>Productos Salientes</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="addoutboundproduct.php"><i class="fa fa-circle-o"></i>Agregar Orden Saliente</a></li>
+            <li><a href="outboundproductlist.php"><i class="fa fa-circle-o"></i>Lista de Produtos Salientes</a></li>
 
+          </ul>
+        </li>
         <li class="treeview">
           <a href="#">
             <i class="fa fa-registered"></i> <span>Usuarios</span>

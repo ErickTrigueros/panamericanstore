@@ -1,6 +1,6 @@
 <?php
 //call the FPDF library
-require('fpdf/fpdf.php');
+require('../fpdf/fpdf.php');
 include_once'connectdb.php';
 
 

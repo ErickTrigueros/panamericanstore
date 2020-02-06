@@ -159,12 +159,12 @@ desired effect
               <li class="user-footer">
                 <div class="pull-left">
                   <!--<a href="changepassword.php" class="btn btn-default btn-flat">Cambiar Contraseña</a>-->
-                  <!--<button class="btn btn-sm btn-danger" id="switchprice">Show/Hide Price</button>-->
-                  <div class="btn-group" role="group" aria-label="Basic example">
+                  <button class="btn btn-sm btn-danger" id="switchprice">Show/Hide Price</button>
+                  <!--<div class="btn-group" role="group" aria-label="Basic example">
                     <button type="button" class="btn btn-sm btn-success" id="show">Show</button>
                     <button type="button" class="btn btn-sm btn-danger" id="hide">Hide</button>
                     
-                  </div>
+                  </div>-->
                 </div>
                 <div class="pull-right">
                   <a href="logout.php" class="btn btn-default btn-flat">Salir</a>

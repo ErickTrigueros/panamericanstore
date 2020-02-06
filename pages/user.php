@@ -14,9 +14,9 @@ if($_SESSION['username']=="" OR $_SESSION['role']=="Admin"){//si la variable de 
     $subtotal=$_POST["txtsubtotal"];
     $tax=$_POST['txttax'];
     $discount=$_POST['txtdiscount'];
-    $total=$_POST['txttotal'];
+    $total=$_POST['txttotal']-$_POST['txtdiscount'];//Total menos descuento.
     $paid=$_POST['txtpaid'];
-    $due=$_POST['txtdue'];
+    $due=$_POST['txtdue']-$_POST['txtdiscount'];
     $payment_type=$_POST['rb'];
     //fin Obtengo datos de campos de texto y guardo en variables para guardar en tbl_invoice
     ////////////////////////////////
@@ -143,8 +143,9 @@ echo '<script type="text/javascript">
                           <div class="product-body">
                             <p class="product-category"><?php echo $row->pcode?></p>
                             <h3 class="product-name"><a href="#"><?php echo $row->pname?></a></h3>
-                            <h4 class="product-price">$ <?php echo $row->saleprice?> <del class="product-old-price">$7.00</del></h4>
-                            <!--<button type="button" class="btn btn-sm btn-danger" data-toggle="popover" data-placement="bottom" title="$" data-content="">Precio</button>-->
+                            <h4 class="product-price">$ <?php echo $row->saleprice?></h4>
+                            <!--<button type="button" class="btn btn-sm btn-danger" data-toggle="popover" data-placement="bottom" title="$" data-content="">Precio</button>    
+                             <del class="product-old-price">$7.00</del> -->
                             <div class="product-rating">
                               <i class="fa fa-star"></i>
                               <i class="fa fa-star"></i>
@@ -164,7 +165,7 @@ echo '<script type="text/javascript">
                           <input type="hidden" class="form-control pull-right" id="datepicker" name="orderdate" value="<?php echo date("Y-m-d");?>"  data-date-format="yyyy-mm-dd">
                           <input type="hidden" class="form-control" name="txtsubtotal" id="txtsubtotal" value="<?php echo $row->saleprice?>" required readonly>
                           <input type="hidden" class="form-control" name="txttax" id="txttax" value="0" required readonly>
-                          <input type="hidden" class="form-control" name="txtdiscount" id="txtdiscount" value="0" required readonly>
+                          <input type="hidden" class="form-control" name="txtdiscount" id="txtdiscount" value="1" required readonly>
                           <input type="hidden" class="form-control" name="txttotal" id="txttotal" value="<?php echo $row->saleprice?>" required readonly>
                           <input type="hidden" class="form-control" name="txtpaid" value="0"  id="txtpaid" required>
                           <input type="hidden" class="form-control" name="txtdue" id="txtdue" value="<?php echo $row->saleprice?>" required readonly>

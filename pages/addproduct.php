@@ -51,7 +51,7 @@ if($_SESSION['username']=="" OR $_SESSION['role']=="User"){//si la variable de s
      
       //Codigo para insertar en db
 
-      if(!isset($error)){
+      if(!isset($error)){//validacion Si no hay  error //////////INSERSION//////////
         $insert=$pdo->prepare("insert into tbl_product(pcode,pname,pcategory,pstyle,pmaterial,pcolor,purchaseprice,saleprice,pobservation,pstock,pdescription,pimage)
          values (:pcode,:pname,:pcategory,:pstyle,:pmaterial,:pcolor,:purchaseprice,:saleprice,:pobservation,:pstock,:pdescription,:pimage)");
         $insert->bindParam(':pcode',$pcode);
@@ -91,12 +91,13 @@ if($_SESSION['username']=="" OR $_SESSION['role']=="User"){//si la variable de s
              });
              </script>';
         }
-      }//FIn codigo inertar en DB
+      }//FIn codigo insertar en DB si no hay error ////////// FIN INSERSION//////////
         
-          }
-        }
+          }//fin de if if(move_uploaded_file
+        }//Fin else si el tamaño de la imagen es adecuado
         
-      }else {
+      }//Fin de if para tipos de extension
+      else {
         //echo "Solo puede cargar imagenes jpg, png y gif"
         $error='
          <script type="text/javascript">
@@ -110,16 +111,13 @@ if($_SESSION['username']=="" OR $_SESSION['role']=="User"){//si la variable de s
              });
              </script>';
              echo $error;      
-      }
+      }//Fin else para tipos de extension
       //Fin codigo para agregar archivos
 
 
 
     }
-    //Fin codigo para agregar productos
-      
-
-
+    //Fin codigo btn para agregar productos
 ?>
 
   <!-- Content Wrapper. Contains page content -->

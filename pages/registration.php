@@ -11,7 +11,7 @@
     error_reporting(0);//elimino los errores que me muestra php
     $id=$_GET['id'];//obtengo el id
     $delete=$pdo->prepare("delete from tbl_user where userid=".$id);
-    if($delete->execute()){
+    if($delete->execute()){//Inicio If delete
         echo '<script type="text/javascript">
                    jQuery(function validation(){
                      swal({
@@ -22,7 +22,7 @@
                      });
                    });
                    </script>';
-    }
+    }//Fin If delete
     if(isset($_POST['btnsave'])){
     //Guardamos las variables para los usuarios
     $name=$_POST['txtname'];
@@ -92,7 +92,7 @@
             }
     }
     //Fin validacion Email y Usuario
-    }
+    }//Fin btn Save
 ?>
 
   <!-- Content Wrapper. Contains page content -->
@@ -167,7 +167,13 @@
                     </select>
                     </div>
                     <!-- Fin seleccionar Role -->
-
+                    <!-- Inicio seleccionar Imagen -->
+                    <div class="form-group">
+                      <label>Imagen de Usuario</label>
+                      <input type="file" class="input-group" name="myfile" required>
+                      <p>Subir imagen</p>
+                    </div>
+                    <!-- Fin seleccionar Imagen -->
                     <button type="submit" class="btn btn-info" name="btnsave">Guardar</button>
 
                 </div>
@@ -183,6 +189,7 @@
                                 <th>Correo</th>
                                 <th>Contraseña</th>
                                 <th>Rol</th>
+                                
                                 <th>Eliminar</th>
                             </tr>
                         </thead>
@@ -199,6 +206,7 @@
                                 <td>'.$row->useremail.'</td>
                                 <td>'.$row->password.'</td>
                                 <td>'.$row->role.'</td>
+                                
                                 <td>
                                 <a href="registration.php?id='.$row->userid.'" class="btn btn-danger" role="button">
                                 <span class="glyphicon glyphicon-trash" title="delete"></span></a>

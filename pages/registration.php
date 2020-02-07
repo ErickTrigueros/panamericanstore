@@ -32,15 +32,23 @@
     $password=$_POST['txtpassword'];
     $userrole=$_POST['txtselect_option'];
     //echo $name_txt."-" .$surname_txt."-".$username_txt;
+     //Inicio codigo para agregar archivos
+     $f_name= $_FILES['myfile']['name'];
+     $f_tmp= $_FILES['myfile']['tmp_name'];
+     $f_size= $_FILES['myfile']['size'];
+     $f_extension= explode('.',$f_name);
+     $f_extension= strtolower(end($f_extension));
+     $f_newfile= uniqid().'.'.$f_extension;
+     $store= "../userimages/". $f_newfile;//necesitamos crear una carpeta llamada userimages
 
-    //Inicio validacion Email para insertar datos de usuario
+      //Inicio validacion Email para insertar datos de usuario
     if(isset($_POST['txtemail'])){
     
         //Con un select traeremos los datos del usuario
         $select=$pdo->prepare("select useremail from tbl_user where useremail='$useremail'");       
         $select->execute();//ejecuto la query
 
-        if($select->rowcount()>0){
+        if($select->rowcount()>0){//Inicio para verificar que el usuario con correo a insertar no exista
             //echo'Email ya existe';
             echo '<script type="text/javascript">
             jQuery(function validation(){
@@ -52,17 +60,19 @@
               });
             });
             </script>';
-        }else {
+        }
+        else {//Inicio Else si el usuario a ingresar no existe
             //Insertar usuarios
-            $insert=$pdo->prepare("insert into tbl_user(name, surname, username, useremail, password, role)
-            values (:name, :surname, :user, :email,:pass, :role)");
+
+            $insert=$pdo->prepare("insert into tbl_user(name, surname, username, useremail, password, role, uimage)
+            values (:name, :surname, :user, :email,:pass, :role, :uimage)");
                 $insert->bindParam(':name',$name);
                 $insert->bindParam(':surname',$surname);
                 $insert->bindParam(':user',$username);
                 $insert->bindParam(':email',$useremail);
                 $insert->bindParam(':pass',$password);
                 $insert->bindParam(':role',$userrole);
-
+                $insert->bindParam(':uimage',$userimage);
             if($insert->execute()){
                    //echo 'Registro exitoso';
                    echo '<script type="text/javascript">
@@ -89,9 +99,81 @@
         });
         </script>';
                 }
-            }
-    }
-    //Fin validacion Email y Usuario
+         //////////INICIO INSERTANDO IMAGEN
+         if($f_extension=='jpg' || $f_extension=='jpeg' || $f_extension=='png' || $f_extension=='gif'){//Inivcio validacion para tipos de estension
+          if ($f_size>=1000000) {//validacion tamaño de imagen
+           // echo "Archivo debe ser menor a 1MB"
+           $error='
+           <script type="text/javascript">
+               jQuery(function validation(){
+                 swal({
+                   title: "Error!",
+                   text: "Archivo debe ser menor a 1MB!",
+                   icon: "warning",
+                   button: "OK",
+                 });
+               });
+               </script>';
+               echo $error;
+          } else {
+            if(move_uploaded_file($f_tmp, $store)){//Inicio validacion de imagen cargada
+              $userimage=$f_newfile;
+        //////////////////////////////////////////INSERSION////////////////////////////////////
+        if(!isset($error)){//validacion Si no hay  error
+
+          $insert=$pdo->prepare("insert into tbl_user( uimage)
+          values (:uimage)");
+             
+              $insert->bindParam(':uimage',$userimage);
+          if($insert->execute()){
+                 //echo 'Registro exitoso';
+                 echo '<script type="text/javascript">
+                 jQuery(function validation(){
+                   swal({
+                     title: "Exito!",
+                     text: "Imagen ingresada con exito!",
+                     icon: "success",
+                     button: "OK",
+                   });
+                 });
+                 </script>';
+
+              }else{
+                  //echo 'Registro fallo';
+                  echo '<script type="text/javascript">
+      jQuery(function validation(){
+        swal({
+          title: "Error!",
+          text: "El registro de la imagen falló!!",
+          icon: "error",
+          button: "OK",
+        });
+      });
+      </script>';
+              }
+
+       }//FIn codigo insertar en DB si no hay error ////////// FIN INSERSION//////////
+       }//fin de if if(move_uploaded_file     
+      }//Fin else si el tamaño de la imagen es adecuado
+      }//Fin de if para tipos de extension
+      else {
+        //echo "Solo puede cargar imagenes jpg, png y gif"
+        $error='
+         <script type="text/javascript">
+             jQuery(function validation(){
+               swal({
+                 title: "Warning!",
+                 text: "Solo puede cargar imagenes jpg, jpeg, png y gif!",
+                 icon: "error",
+                 button: "OK",
+               });
+             });
+             </script>';
+             echo $error;      
+      }//Fin else para tipos de extension
+        }//Fin Else si el usuario a ingresar no existe
+    }//Fin validacion Email y Usuario
+      //////////////////////////////////////////FIN INSERSION////////////////////////////////////
     }//Fin btn Save
 ?>
 
@@ -189,7 +271,7 @@
                                 <th>Correo</th>
                                 <th>Contraseña</th>
                                 <th>Rol</th>
-                                
+                                <th>Imagen</th>
                                 <th>Eliminar</th>
                             </tr>
                         </thead>
@@ -206,7 +288,7 @@
                                 <td>'.$row->useremail.'</td>
                                 <td>'.$row->password.'</td>
                                 <td>'.$row->role.'</td>
-                                
+                                <td>'.$row->uimage.'</td>
                                 <td>
                                 <a href="registration.php?id='.$row->userid.'" class="btn btn-danger" role="button">
                                 <span class="glyphicon glyphicon-trash" title="delete"></span></a>

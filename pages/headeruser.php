@@ -106,6 +106,12 @@ desired effect
 -->
 <body class="hold-transition skin-blue sidebar-mini ">
 <div class="wrapper">
+<?php
+              $USERID=$_SESSION['userid'];
+               $select=$pdo->prepare("select uimage from tbl_user where userid = '$USERID' order by userid asc");//Obtengo los datos
+                  $select->execute();//ejecuto la query
+                  while($row=$select->fetch(PDO::FETCH_OBJ)){//Recorro los registros los valores
+?>
 
   <!-- Main Header -->
   <header class="main-header">
@@ -134,14 +140,15 @@ desired effect
             <!-- Menu Toggle Button -->
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <!-- The user image in the navbar-->
-              <img src="../dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+              <img src="../userimages/<?php echo $row->uimage?>" class="user-image" alt="User Image">
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
               <span class="hidden-xs"><?php echo $_SESSION['username'];?></span><!--Muestra nombre de usuario-->
             </a>
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
               <li class="user-header">
-                <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                    <img src="../userimages/<?php echo $row->uimage?>"  class="img-circle" alt="User Image">
+              
 
                 <p>
                   <?php echo $_SESSION['name']." ".$_SESSION['surname'];?><!--Muestra nombre y apellidos de usuario-->
@@ -187,7 +194,7 @@ desired effect
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+          <img src="../userimages/<?php echo $row->uimage?>" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <p><?php echo $_SESSION['name']." ".$_SESSION['surname'];?></p><!--muestra nombre y apellidos-->
@@ -195,7 +202,9 @@ desired effect
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>
-
+             <?php
+                } //FIN WHILE
+              ?>
       <!-- search form (Optional) -->
       <form action="#" method="get" class="sidebar-form">
         <div class="input-group">

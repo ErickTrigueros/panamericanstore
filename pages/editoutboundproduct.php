@@ -297,13 +297,13 @@ for($i=0 ; $i<count($arr_productid) ; $i++){
                                 <div class="input-group-addon">
                                     <i class="fa fa-usd"></i>
                                 </div>
-                                <input type="text" class="form-control" value="<?php echo $discount?>" name="txtdiscount" id="txtdiscount" required >
+                                <input type="text" class="form-control" value="<?php echo $item_invoice_details['qty']?>" name="txtdiscount" value="0" id="txtdiscount" required readonly >
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6"><!-- segunda division-->
                     <div class="form-group">
-                            <label>Total</label>
+                            <label>Total- Comision</label>
                             <div class="input-group">
                                 <div class="input-group-addon">
                                     <i class="fa fa-usd"></i>

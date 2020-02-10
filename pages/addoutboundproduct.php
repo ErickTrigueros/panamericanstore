@@ -132,7 +132,7 @@ echo "Orden creada satisfactoriamente";
         <div class="box box-warning">
             <form action="" method="post" name="">
             <div class="box-header with-border">
-              <h3 class="box-title">Nueva pedido</h3>
+              <h3 class="box-title">Nuevo pedido</h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->
@@ -216,13 +216,14 @@ echo "Orden creada satisfactoriamente";
                                 <div class="input-group-addon">
                                     <i class="fa fa-usd"></i>
                                 </div>
-                                <input type="text" class="form-control" name="txtdiscount" id="txtdiscount" required >
+                                <input type="text" class="form-control" name="txtdiscount"  id="txtdiscount" required readonly >
+                                
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6"><!-- segunda division-->
                     <div class="form-group">
-                            <label>Total</label>
+                            <label>Total - Comision</label>
                             <div class="input-group">
                                 <div class="input-group-addon">
                                     <i class="fa fa-usd"></i>
@@ -230,17 +231,17 @@ echo "Orden creada satisfactoriamente";
                                 <input type="text" class="form-control" name="txttotal" id="txttotal" required readonly>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" style="display: none;">
                             <label>Pagó</label>
                             <div class="input-group">
                                 <div class="input-group-addon">
                                     <i class="fa fa-usd"></i>
                                 </div>
 
-                                <input type="text" class="form-control" name="txtpaid" value="0"  id="txtpaid" required>
+                                <input type="text" class="form-control" name="txtpaid" value="0"  id="txtpaid" required readonly>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" style="display: none;">
                             <label>Diferencia</label>
                             <div class="input-group">
                                 <div class="input-group-addon">
@@ -396,7 +397,7 @@ echo "Orden creada satisfactoriamente";
          var discount = dis;     
          var net_total=0;
          var paid_amt=paid;
-      var due=0;
+         var due=0;
               
               
          $(".total").each(function(){
@@ -404,10 +405,17 @@ echo "Orden creada satisfactoriamente";
          subtotal = subtotal+($(this).val()*1); //calculanndo subtotal   
              
          })
+         /////////Seteando comision de acuerdo a la cantidad
+         $(".qty").each(function(){
+             
+             discount = discount+($(this).val()*1); //calculanndo la comision de acuerdo e  
+                 
+             })
+        /////////Fin Seteando comision de acuerdo a la cantidad
      //end function calculate subtotal, tax, net, descuento, due          
      tax=0*subtotal;//calculando impuesto
      net_total=tax+subtotal;  //50+1000 =1050 // calculando  total neto
-     net_total=net_total-discount;   //calculando 
+     net_total=net_total- discount;   //calculando 
      due=net_total-paid_amt;  //total neto -  el total que pagó     
               
          

@@ -42,7 +42,30 @@
      $store= "../userimages/". $f_newfile;//necesitamos crear una carpeta llamada userimages
 
       //Inicio validacion Email para insertar datos de usuario
-    if(isset($_POST['txtemail'])){
+    
+         //////////INICIO INSERTANDO IMAGEN
+         if($f_extension=='jpg' || $f_extension=='jpeg' || $f_extension=='png' || $f_extension=='gif'){//Inivcio validacion para tipos de estension
+          if ($f_size>=1000000) {//validacion tamaño de imagen
+           // echo "Archivo debe ser menor a 1MB"
+           $error='
+           <script type="text/javascript">
+               jQuery(function validation(){
+                 swal({
+                   title: "Error!",
+                   text: "Archivo debe ser menor a 1MB!",
+                   icon: "warning",
+                   button: "OK",
+                 });
+               });
+               </script>';
+               echo $error;
+          } else {
+            if(move_uploaded_file($f_tmp, $store)){//Inicio validacion de imagen cargada
+              $userimage=$f_newfile;
+        //////////////////////////////////////////INSERSION////////////////////////////////////
+        if(!isset($error)){//validacion Si no hay  error
+
+         if(isset($_POST['txtemail'])){
     
         //Con un select traeremos los datos del usuario
         $select=$pdo->prepare("select useremail from tbl_user where useremail='$useremail'");       
@@ -99,58 +122,8 @@
         });
         </script>';
                 }
-         //////////INICIO INSERTANDO IMAGEN
-         if($f_extension=='jpg' || $f_extension=='jpeg' || $f_extension=='png' || $f_extension=='gif'){//Inivcio validacion para tipos de estension
-          if ($f_size>=1000000) {//validacion tamaño de imagen
-           // echo "Archivo debe ser menor a 1MB"
-           $error='
-           <script type="text/javascript">
-               jQuery(function validation(){
-                 swal({
-                   title: "Error!",
-                   text: "Archivo debe ser menor a 1MB!",
-                   icon: "warning",
-                   button: "OK",
-                 });
-               });
-               </script>';
-               echo $error;
-          } else {
-            if(move_uploaded_file($f_tmp, $store)){//Inicio validacion de imagen cargada
-              $userimage=$f_newfile;
-        //////////////////////////////////////////INSERSION////////////////////////////////////
-        if(!isset($error)){//validacion Si no hay  error
-
-          $insert=$pdo->prepare("insert into tbl_user( uimage)
-          values (:uimage)");
-             
-              $insert->bindParam(':uimage',$userimage);
-          if($insert->execute()){
-                 //echo 'Registro exitoso';
-                 echo '<script type="text/javascript">
-                 jQuery(function validation(){
-                   swal({
-                     title: "Exito!",
-                     text: "Imagen ingresada con exito!",
-                     icon: "success",
-                     button: "OK",
-                   });
-                 });
-                 </script>';
-
-              }else{
-                  //echo 'Registro fallo';
-                  echo '<script type="text/javascript">
-      jQuery(function validation(){
-        swal({
-          title: "Error!",
-          text: "El registro de la imagen falló!!",
-          icon: "error",
-          button: "OK",
-        });
-      });
-      </script>';
-              }
+                }//Fin Else si el usuario a ingresar no existe
+                }//Fin validacion Email y Usuario
 
        }//FIn codigo insertar en DB si no hay error ////////// FIN INSERSION//////////
        }//fin de if if(move_uploaded_file     
@@ -171,8 +144,6 @@
              </script>';
              echo $error;      
       }//Fin else para tipos de extension
-        }//Fin Else si el usuario a ingresar no existe
-    }//Fin validacion Email y Usuario
       //////////////////////////////////////////FIN INSERSION////////////////////////////////////
     }//Fin btn Save
 ?>
@@ -204,7 +175,7 @@
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            <form role="form" action="" method="post">
+            <form role="form" action="" method="post" name="formproduct" enctype="multipart/form-data">
               <div class="box-body">
                     <div class="col-md-4"><!--Columnas divididas en 4-->
                     <div class="form-group">
@@ -288,7 +259,7 @@
                                 <td>'.$row->useremail.'</td>
                                 <td>'.$row->password.'</td>
                                 <td>'.$row->role.'</td>
-                                <td>'.$row->uimage.'</td>
+                                <td><img src="../userimages/'.$row->uimage.'" class="img-rounded" width="40px" height="40px"/></td>
                                 <td>
                                 <a href="registration.php?id='.$row->userid.'" class="btn btn-danger" role="button">
                                 <span class="glyphicon glyphicon-trash" title="delete"></span></a>

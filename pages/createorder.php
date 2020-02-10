@@ -231,7 +231,7 @@ echo "Orden creada satisfactoriamente";
                                 <div class="input-group-addon">
                                     <i class="fa fa-usd"></i>
                                 </div>
-                                <input type="text" class="form-control" name="txtdiscount" id="txtdiscount" required readonly>
+                                <input type="text" class="form-control" name="txtdiscount"  id="txtdiscount" required readonly>
                         </div>
                     </div>
                 </div>

@@ -297,7 +297,7 @@ for($i=0 ; $i<count($arr_productid) ; $i++){
                                 <div class="input-group-addon">
                                     <i class="fa fa-usd"></i>
                                 </div>
-                                <input type="text" class="form-control" value="<?php echo $item_invoice_details['qty']?>" name="txtdiscount" value="0" id="txtdiscount" required readonly >
+                                <input type="text" class="form-control" value="<?php echo $discount?>" name="txtdiscount" id="txtdiscount" required readonly >
                         </div>
                     </div>
                 </div>
@@ -509,7 +509,7 @@ for($i=0 ; $i<count($arr_productid) ; $i++){
          //variables a usar
          var subtotal=0;
          var tax=0;
-         var discount = dis;     
+         var discount = 0;     
          var net_total=0;
          var paid_amt=paid;
       var due=0;
@@ -520,6 +520,13 @@ for($i=0 ; $i<count($arr_productid) ; $i++){
          subtotal = subtotal+($(this).val()*1); //calculanndo subtotal   
              
          })
+         /////////Seteando comision de acuerdo a la cantidad
+         $(".qty").each(function(){
+             
+             discount = discount+($(this).val()*1); //calculanndo la comision de acuerdo e  
+                 
+             })
+        /////////Fin Seteando comision de acuerdo a la cantidad
      //end function calculate subtotal, tax, net, descuento, due          
      tax=0*subtotal;//calculando impuesto
      net_total=tax+subtotal;  //50+1000 =1050 // calculando  total neto

@@ -394,7 +394,7 @@ echo "Orden creada satisfactoriamente";
          //variables a usar
          var subtotal=0;
          var tax=0;
-         var discount = dis;     
+         var discount = 0;  //He seteado a 0 en vez de que sea dis.   
          var net_total=0;
          var paid_amt=paid;
          var due=0;

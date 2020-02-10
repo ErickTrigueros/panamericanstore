@@ -45,7 +45,7 @@ $row=$select->fetch(PDO::FETCH_ASSOC);//Recorro los registros los valores
       //Inicio codigo para agregar archivos
       $f_name= $_FILES['myfile']['name'];
       //inicio update img+++++++++++++++++++++++++++
-      if(!empty($f_name)){
+      if(!empty($f_name)){//Inicio si el nombre esta vacio.
         $f_tmp= $_FILES['myfile']['tmp_name'];
         $f_size= $_FILES['myfile']['size'];
         $f_extension= explode('.',$f_name);
@@ -115,12 +115,13 @@ $row=$select->fetch(PDO::FETCH_ASSOC);//Recorro los registros los valores
                });
                </script>';
           }
-        }//FIn codigo inertar en DB
+        }//FIn codigo inertar en DB si no hay error.
           
-            }
-          }
+            }//Fin if (move_uploaded)
+          }//Fin Else Size
           
-        }else {
+        }//Fin if Extension
+        else {//Inicio If extension de imagen
           //echo "Solo puede cargar imagenes jpg, png y gif"
           $error='
            <script type="text/javascript">
@@ -134,9 +135,10 @@ $row=$select->fetch(PDO::FETCH_ASSOC);//Recorro los registros los valores
                });
                </script>';
                echo $error;      
-        }
-        //Fin codigo para actualizar img+++++++++
-      }else {
+        }//Fin else para tipos de extension
+        
+      }//Fin IF si el nombre de la imagen esta vacio
+      else {//Else Si no hay imagen nueva, guardar la misma de la BD
         $update=$pdo->prepare("update tbl_product set pcode=:pcode, pname=:pname, pcategory=:pcategory, pstyle=:pstyle, pmaterial=:pmaterial,
         pcolor=:pcolor, purchaseprice=:purchaseprice, saleprice=:saleprice, pobservation=:pobservation, pstock=:pstock, pdescription=:pdescription,
         pimage=:pimage where idp =$id ");
@@ -180,8 +182,9 @@ $row=$select->fetch(PDO::FETCH_ASSOC);//Recorro los registros los valores
            echo $error;
       }
     }//FIn codigo actualizar en DB
+    //Fin codigo para actualizar img+++++++++
 
-      }
+      }//Fin btn edit product
 
       //inicio codigo para poner las nuevas variables actualizadas en el formulario 
       $select=$pdo->prepare("select * from tbl_product where idp =$id");//Obtengo los datos
@@ -211,8 +214,8 @@ $row=$select->fetch(PDO::FETCH_ASSOC);//Recorro los registros los valores
         <small></small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-        <li class="active">Here</li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
+        <li class="active">Editar Producto</li>
       </ol>
     </section>
 

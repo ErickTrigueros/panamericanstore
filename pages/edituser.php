@@ -156,7 +156,7 @@
         $select=$pdo->prepare("select useremail from tbl_user where useremail='$useremail'");       
         $select->execute();//ejecuto la query
 
-        if($select->rowcount()==2){//Inicio para verificar que el usuario con correo a insertar no exista
+        if($select->rowcount()>1){//Inicio para verificar que el usuario con correo a insertar no exista
             //echo'Email ya existe';
             echo '<script type="text/javascript">
             jQuery(function validation(){

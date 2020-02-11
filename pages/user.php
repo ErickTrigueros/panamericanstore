@@ -156,7 +156,7 @@ echo '<script type="text/javascript">
                             <div class="product-btns">
                               <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
                               <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-                              <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+                              <span class="tooltipp"><a href="viewproductdetail.php?id=<?php echo $row->idp?>" class="quick-view"><i class="fa fa-eye"></i></a></span>
                             </div>
                           </div>
                           <form action=""  method="post" name="" >

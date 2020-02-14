@@ -185,8 +185,40 @@ echo '<script type="text/javascript">
                           <input type="number" min="1" class="form-control qty" name="qty[]" id="txtqty" value="<?php echo 1;?>" style="display: none;">
                          
                           <div class="add-to-cart">
-                            <button class="add-to-cart-btn" type="submit" name="btnsaveorder" value="Guardar Pedido"><i class="fa fa-shopping-cart"></i> Reservar</button>
+                            <!--<button class="add-to-cart-btn" type="submit" name="btnsaveorder" data-toggle="modal" data-target="#confirm"><i class="fa fa-shopping-cart"></i> Reservar</button>-->
+                            <button id="cancelorder" class="add-to-cart-btn" type="button" name="btnsaveorder" data-toggle="popover" data-placement="bottom" title='<i class="fa fa-exclamation-triangle"><p class="text-danger">Confirmar Reserva</p></i>' data-html='true' 
+                            data-content='
+                                  <div >
+                                    ¿Desea Reservar el siguiente producto? <br> Una vez reservado podra eliminarlo de la lista de reservas!
+                                  </div>
+                                  <button type="button" class="btn btn-danger btn-sm" onclick="location.reload()"><i class="fa fa-window-close"></i> Cancelar</button>
+                                  <button type="submit" name="btnsaveorder" class="btn btn-success btn-sm"><i class="fa fa-shopping-cart"></i> Confirmar</button>'
+                            >
+                            <i class="fa fa-shopping-cart"></i> Reservar</button>
                           </div>
+
+                          <!-- Modal --
+                          <div class="modal fade" id="confirm">
+                            <div class="modal-dialog modal-dialog-centered" >
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Mensaje de Confirmación</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                <p class="font-weight-bold">¿Desea reservar el producto seleccionado?<br>
+                                Una vez reservado podra eliminarlo de la lista de reservas.</p> 
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                  <button type="submit" name="btnsaveorder" class="btn btn-success">Confirmar Reserva</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                           !--End Modal -->
                           </form>
             </div><!--FinFila para mostrar productos 4 elemento de tamaño 3 (4x3)-->
           </div><!--Fin Fila para mostrar productos-->

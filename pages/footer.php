@@ -9,7 +9,13 @@
   </footer>
 
   <!-- Control Sidebar -->
-  
+  <!--js for products details-->
+<!-- jQuery Plugins -->
+    <script src="../dist/js/slick.min.js"></script>
+		<script src="../dist/js/nouislider.min.js"></script>
+		<script src="../dist/js/jquery.zoom.min.js"></script>
+    <script src="../dist/js/main.js"></script>
+    
   <!-- /.control-sidebar -->
   <!-- Add the sidebar's background. This div must be placed
   immediately after the control sidebar -->

@@ -43,8 +43,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="../dist/css/skins/skin-blue.min.css">
 <!--TO SHOW PRODUCTS-->
 
+  <!-- Custom stlylesheet for master template, user module -->
+   <!-- Slick -->
+  <link type="text/css" rel="stylesheet" href="../dist/css/slick.css"/>
+ 		<link type="text/css" rel="stylesheet" href="../dist/css/slick-theme.css"/>
+
+ 		<!-- nouislider -->
+ 		<link type="text/css" rel="stylesheet" href="../dist/css/nouislider.min.css"/>
+  <!-- Font Awesome Icon -->
+  <link rel="stylesheet" href="css/font-awesome.min.css">
   <!-- Custom stlylesheet -->
   <link type="text/css" rel="stylesheet" href="../dist/css/style.css"/>
+ 
   <!--END To SHOW PRODUCTS-->
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -82,7 +92,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- Select2 -->
 <script src="../bower_components/select2/dist/js/select2.full.min.js"></script>
 
-<!--js for message order before submit-->
+
+		
 
 </head>
 <!--
@@ -109,7 +120,7 @@ desired effect
 <div class="wrapper">
 <?php
               $USERID=$_SESSION['userid'];
-               $select=$pdo->prepare("select uimage from tbl_user where userid = '$USERID' order by userid asc");//Obtengo los datos
+               $select=$pdo->prepare("select userid, uimage from tbl_user where userid = '$USERID' order by userid asc");//Obtengo los datos
                   $select->execute();//ejecuto la query
                   while($row=$select->fetch(PDO::FETCH_OBJ)){//Recorro los registros los valores
 ?>
@@ -118,7 +129,7 @@ desired effect
   <header class="main-header">
 
     <!-- Logo -->
-    <a href="" class="logo">
+    <a href="user.php" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>A</b>PS</span>
       <!-- logo for regular state and mobile devices -->
@@ -149,11 +160,11 @@ desired effect
               <!-- The user image in the menu -->
               <li class="user-header">
                     <img src="../userimages/<?php echo $row->uimage?>"  class="img-circle" alt="User Image">
-              
-
                 <p>
                   <?php echo $_SESSION['name']." ".$_SESSION['surname'];?><!--Muestra nombre y apellidos de usuario-->
-                  <small>Miembro desde Feb. 2020</small>
+                  <small><a href="edituserimage.php?id='<?php echo $row->userid?>'" class="btn btn-info" role="button">
+                   <span class="glyphicon glyphicon-camera" style="color:#ffffff" data-toggle="tooltip" title="Cambiar Imagen"></span></a></small>
+                   <div><small>Cambiar Imagen</small></div>                    
                 </p>
               </li>
               <!-- Menu Body -->
@@ -167,7 +178,7 @@ desired effect
               <li class="user-footer">
                 <div class="pull-left">
                   <!--<a href="changepassword.php" class="btn btn-default btn-flat">Cambiar Contraseña</a>-->
-                  <button class="btn btn-sm btn-danger" id="switchprice">Show/Hide Price</button>
+                  <button class="btn btn-sm btn-success" id="switchprice">Ver/Ocultar Precio</button>
                   <!--<div class="btn-group" role="group" aria-label="Basic example">
                     <button type="button" class="btn btn-sm btn-success" id="show">Show</button>
                     <button type="button" class="btn btn-sm btn-danger" id="hide">Hide</button>

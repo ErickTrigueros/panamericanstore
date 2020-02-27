@@ -186,13 +186,15 @@ echo '<script type="text/javascript">
                          
                           <div class="add-to-cart">
                             <!--<button class="add-to-cart-btn" type="submit" name="btnsaveorder" data-toggle="modal" data-target="#confirm"><i class="fa fa-shopping-cart"></i> Reservar</button>-->
-                            <button id="cancelorder" class="add-to-cart-btn" type="button" name="btnsaveorder" data-toggle="popover" data-placement="bottom" title='<i class="fa fa-exclamation-triangle"><p class="text-danger">Confirmar Reserva</p></i>' data-html='true' 
+                            <button id="cancelorder" class="add-to-cart-btn" type="button" data-trigger="focus" name="btnsaveorder" data-toggle="popover" data-placement="bottom" title='<p class="text-danger" align="center">Confirmar Reserva</p>' data-html='true' 
                             data-content='
-                                  <div >
-                                    ¿Desea Reservar el siguiente producto? <br> Una vez reservado podra eliminarlo de la lista de reservas!
+                                  <div align="center">
+                                    <h4>¿Reservar el siguiente producto?</h4><h6>Una vez reservado podra eliminarlo de la lista de reservas!</h6>
                                   </div>
-                                  <button type="button" class="btn btn-danger btn-sm" onclick="location.reload()"><i class="fa fa-window-close"></i> Cancelar</button>
-                                  <button type="submit" name="btnsaveorder" class="btn btn-success btn-sm"><i class="fa fa-shopping-cart"></i> Confirmar</button>'
+                                  <div align="center">
+                                  <button type="button" class="btn btn-danger btn-sm"><i class="fa fa-window-close"></i> Cancelar</button>
+                                  <button type="submit" name="btnsaveorder" class="btn btn-success btn-sm"><i class="fa fa-shopping-cart"></i> Confirmar</button>
+                                  </div>'
                             >
                             <i class="fa fa-shopping-cart"></i> Reservar</button>
                           </div>
@@ -237,6 +239,9 @@ echo '<script type="text/javascript">
     $('[data-toggle="popover"]').popover()
   });
   //<!-- End popover-->
+  $('.popover-dismiss').popover({
+  trigger: 'focus'
+})
   //Start hide and show prices
   //with toggle with 1 button
  $(document).ready(function(){  
